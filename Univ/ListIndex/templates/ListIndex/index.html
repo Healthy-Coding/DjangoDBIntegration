@@ -1,0 +1,38 @@
+
+<h1>Top Universities with the Most Female Representation</h1>
+{% if latest_question_list.0 %}
+
+    <ol>
+    {% for georgia in latest_question_list.0 %}
+        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li>
+    {% endfor %}
+    </ol>
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+
+<h1>Top Universities with the Most Male Representation</h1>
+{% if latest_question_list.1 %}
+    <ol>
+    {% for georgia in latest_question_list.1 %}
+        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.men}}</a></li>
+    {% endfor %}
+    </ol>
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<h1>Top Universities with the Most Native American Representation</h1>
+{% if latest_question_list.1 %}
+    <ol>
+    {% for georgia in latest_question_list.2 %}
+        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.amer_indian}}</a></li>
+    {% endfor %}
+    </ol>
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
