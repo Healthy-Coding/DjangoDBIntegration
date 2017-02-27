@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 
-from .models import Georgia
+from .models import Georgialargest15
 
 class IndexView(generic.ListView):
     template_name = 'ListIndex/index.html'
@@ -11,4 +11,4 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
 	    """Return the last five published questions."""
-	    return [Georgia.objects.order_by('-women')[:10], Georgia.objects.order_by('-men')[:10], Georgia.objects.order_by('-amer_indian')[:10]]
+	    return [Georgialargest15.objects.order_by('-women')[:10], Georgialargest15.objects.order_by('-men')[:10], Georgialargest15.objects.order_by('-amer_indian')[:10]]

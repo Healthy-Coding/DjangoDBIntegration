@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/Carousel-Hero.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/user.css' %}">
 
+
 </head>
 
 <body>
@@ -91,15 +92,7 @@
             </div>
         </div>
     </section>
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h5>Healthy Coding App © 2016</h5></div>
-                <div class="col-sm-6 social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
-            </div>
-        </div>
-    </footer>
+
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
@@ -108,19 +101,21 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'ListIndex/style.css' %}" />
 
+<section class="testimonials">
 <h1>Top Universities with the Most Female Representation</h1>
 {% if latest_question_list.0 %}
-
+    
     <ol>
     {% for georgia in latest_question_list.0 %}
-        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li>
+        
+        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li> 
     {% endfor %}
     </ol>
 
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
-
+</section>
 
 <h1>Top Universities with the Most Male Representation</h1>
 {% if latest_question_list.1 %}
@@ -145,3 +140,13 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Healthy Coding App © 2016</h5></div>
+                <div class="col-sm-6 social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            </div>
+        </div>
+    </footer>

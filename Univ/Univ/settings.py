@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import user
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +33,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'ListIndex.apps.ListindexConfig',
-    'bootstrap3',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'Univ.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Universities',
-        'USER': 'root',
-        'PASSWORD':'1breakin',
-        'HOST': 'localhost',
+        'NAME': 'sprint2demoschema',
+        'USER': user.user,
+        'PASSWORD': user.password,
+        'HOST': 'healthycoding-mysql.cm4twrbnv6ev.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }

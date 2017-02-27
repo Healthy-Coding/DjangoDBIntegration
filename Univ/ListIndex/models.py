@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class Georgia(models.Model):
+class Georgialargest15(models.Model):
     name = models.CharField(db_column='Name', max_length=34, blank=True, null=True)  # Field name made lowercase.
     city = models.CharField(db_column='City', max_length=13, blank=True, null=True)  # Field name made lowercase.
     state = models.CharField(db_column='State', max_length=2, blank=True, null=True)  # Field name made lowercase.
@@ -25,12 +25,11 @@ class Georgia(models.Model):
     unknown = models.DecimalField(db_column='Unknown', max_digits=2, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     women = models.DecimalField(db_column='Women', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     men = models.DecimalField(db_column='Men', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
-
-    def __str__(self):
-        return self.name
+    id = models.PositiveIntegerField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'Georgia'
+        db_table = 'georgialargest15'
+
 
 
