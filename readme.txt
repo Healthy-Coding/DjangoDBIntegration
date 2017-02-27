@@ -1,10 +1,10 @@
-This repository includes the binding settings in the Univ/settings.py file that connects Django and MySQL. MySQL will need to be installed locally.
+This repository includes the binding settings in the Univ/settings.py file that connects Django and MySQL located on Amazon Web Services. MySQL will need to be installed locally.
 
-The Database settings are specific to my local MYSQL db, you will have to change the user and password to your settings. One of the requirements is to pip install mysqlclient. >>pip install mysqlclient
+For security reasons, the username and passwords are stored in user.py file. Ask someone in Healthy-Coding group for this information.
 
 Open a terminal, cd into the directory that contains manage.py file. Run >>python manage.py runserver
 
-After changing those settings, you should be prompted to open a local host URL.
+After changing those settings, you should be prompted to open a local host URL. Add “/ListIndex” to that local URL to see the ListIndex page.
 
 The Univ directory contains the main urls.py and settings.py files.
 
