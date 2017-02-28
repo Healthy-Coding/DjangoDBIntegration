@@ -149,13 +149,6 @@ section.testimonials {
   line-height:32px;
 }
 
-div {
-    background-color: lightblue;
-    width: 200px;
-    padding: 25px;
-    border: 25px solid navy;
-    margin:25px;
-}
 
 @media (min-width:768px) {
   .site-footer .social-icons {
