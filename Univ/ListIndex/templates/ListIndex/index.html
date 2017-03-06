@@ -102,45 +102,75 @@
 <link rel="stylesheet" type="text/css" href="{% static 'ListIndex/style.css' %}" />
 
 <section class="testimonials">
-<h1>Top Universities with the Most Female Representation</h1>
-{% if latest_question_list.0 %}
-    
-    <ol>
-    {% for georgia in latest_question_list.0 %}
-        
-        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li> 
-    {% endfor %}
-    </ol>
 
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-</section>
+    {%block content1%}
+    <div>
+    <div class='col-sm-6 col-sm-offset-3'>
+        <h1>Top Universities with the Most Female Representation</h1>
+        {% if latest_question_list.0 %}
+            <ol>
+            {% for georgia in latest_question_list.0 %}
+                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li> 
+                <div class = "thumbnail">
+                <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
+                </div>
+            {% endfor %}
+            </ol>
 
-<h1>Top Universities with the Most Male Representation</h1>
-{% if latest_question_list.1 %}
-    <ol>
-    {% for georgia in latest_question_list.1 %}
-        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.men}}</a></li>
-    {% endfor %}
-    </ol>
+        {% else %}
+            <p>No polls are available.</p>
+        {% endif %}
+       
+    </div>
+    </div>
+    {% endblock content1 %}
 
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+    {%block content2%}
+    <div class='col-sm-6 col-sm-offset-3'>
+        <h1>Top Universities with the Most Male Representation</h1>
+        {% if latest_question_list.0 %}
+            <ol>
+            {% for georgia in latest_question_list.1 %}
+                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.men}}</a></li> 
+                <div class = "thumbnail">
+                <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
+                </div>
+            {% endfor %}
+            </ol>
 
-<h1>Top Universities with the Most Native American Representation</h1>
-{% if latest_question_list.1 %}
-    <ol>
-    {% for georgia in latest_question_list.2 %}
-        <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.amer_indian}}</a></li>
-    {% endfor %}
-    </ol>
+        {% else %}
+            <p>No polls are available.</p>
+        {% endif %}
+       
+    </div>
+    </div>
+    {% endblock content2 %} 
 
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
 
+    {%block content3 %}
+    <div class='col-sm-6 col-sm-offset-3'>
+        <h1>Top Universities with the Most Native American Representation</h1>
+        {% if latest_question_list.0 %}
+            <ol>
+            {% for georgia in latest_question_list.2 %}
+                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.amer_indian}}</a></li> 
+                <div class = "thumbnail">
+                <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
+                </div>
+            {% endfor %}
+            </ol>
+
+        {% else %}
+            <p>No polls are available.</p>
+        {% endif %}
+       
+    </div>
+    </div>
+    {% endblock content3 %} 
+
+
+
+ </section>
     <footer class="site-footer">
         <div class="container">
             <div class="row">
