@@ -110,7 +110,7 @@
         {% if latest_question_list.0 %}
             <ol>
             {% for georgia in latest_question_list.0 %}
-                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.women}}</a></li> 
+                <li><a href="ListIndex/{{ georgia.id}}/">{{ georgia.name }} {{georgia.id}} {{georgia.women}}</a></li> 
                 <div class = "thumbnail">
                 <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
                 </div>
@@ -131,7 +131,7 @@
         {% if latest_question_list.0 %}
             <ol>
             {% for georgia in latest_question_list.1 %}
-                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.men}}</a></li> 
+                <li><a href="ListIndex/{{ georgia.id}}/">{{ georgia.name }} {{georgia.men}}</a></li> 
                 <div class = "thumbnail">
                 <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
                 </div>
@@ -153,7 +153,7 @@
         {% if latest_question_list.0 %}
             <ol>
             {% for georgia in latest_question_list.2 %}
-                <li><a href="http://healthycoding.bss.design/">{{ georgia.name }} {{georgia.amer_indian}}</a></li> 
+                <li><a href="ListIndex/{{ georgia.id}}/">{{ georgia.name }} {{georgia.amer_indian}}</a></li> 
                 <div class = "thumbnail">
                 <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
                 </div>
