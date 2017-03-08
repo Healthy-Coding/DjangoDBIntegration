@@ -2,6 +2,8 @@ This repository includes the binding settings in the Univ/settings.py file that 
 
 For security reasons, the username and passwords are stored in user.py file. Ask someone in Healthy-Coding group for this information.
 
+Because of cache rendering errors, you will need to install this cache cleaner (https://github.com/rdegges/django-clear-cache)
+
 Open a terminal, cd into the directory that contains manage.py file. Run >>python manage.py runserver
 
 You should be prompted to open a local host URL. Add “/ListIndex” to that local URL to see the ListIndex page.
