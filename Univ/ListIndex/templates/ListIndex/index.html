@@ -131,7 +131,7 @@
         {% if latest_question_list.0 %}
             <ol>
             {% for georgia in latest_question_list.1 %}
-                <li><a href="ListIndex/{{ georgia.id}}/">{{ georgia.university }} {{georgia.male}}</a></li> 
+                <li><a href="{% url 'ListIndex:detail'  georgia.id %}">{{ georgia.university }} {{georgia.male}}</a></li> 
                 <div class = "thumbnail">
                 <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
                 </div>
@@ -153,7 +153,7 @@
         {% if latest_question_list.0 %}
             <ol>
             {% for georgia in latest_question_list.2 %}
-                <li><a href="ListIndex/{{ georgia.id}}/">{{ georgia.university }} {{georgia.american_indian_alaskan_native}}</a></li> 
+                <li><a href="{% url 'ListIndex:detail'  georgia.id %}">{{ georgia.university }} {{georgia.american_indian_alaskan_native}}</a></li> 
                 <div class = "thumbnail">
                 <img src = "{% static 'assets/img/bowen-quad.jpg' %}">    
                 </div>
