@@ -14,8 +14,8 @@ class UniversitydataCollegedata(models.Model):
     state = models.CharField(db_column='State', max_length=2, blank=True, null=True)  # Field name made lowercase.
     city = models.CharField(db_column='City', max_length=22, blank=True, null=True)  # Field name made lowercase.
     enrollment_undergrad = models.IntegerField(db_column='Enrollment_Undergrad', blank=True, null=True)  # Field name made lowercase.
-    male = models.DecimalField(db_column='Male', max_digits=15, decimal_places=13, blank=True, null=True)  # Field name made lowercase.
-    female = models.DecimalField(db_column='Female', max_digits=14, decimal_places=12, blank=True, null=True)  # Field name made lowercase.
+    male = models.DecimalField(db_column='Male', max_digits=15, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    female = models.DecimalField(db_column='Female', max_digits=14, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     native_hawaiian_pacific_islander = models.DecimalField(db_column='Native_Hawaiian_Pacific_Islander', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     american_indian_alaskan_native = models.DecimalField(db_column='American_Indian_Alaskan_Native', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     multi_race_not_hispanic_latino = models.DecimalField(db_column='Multi_race_not_Hispanic_Latino', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.

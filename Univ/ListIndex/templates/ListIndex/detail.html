@@ -1,2 +1,14 @@
-<li>
-	<a href="{% url 'detail' college.id %}">{{ college.name }}</a></li>
+<h1>Detail View: <br>{{question.university}}</h1>
+
+<table>
+   {% for key, value in question.items %}
+   
+   	<tr>
+        <td> {{ key }}:</td> <td>{{ value }}</td>
+    </tr>
+   {% endfor %}
+</table>
+
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
