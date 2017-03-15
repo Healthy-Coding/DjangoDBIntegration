@@ -103,6 +103,15 @@
 
 <section class="testimonials">
 
+    {% if queryset_list %}
+    <div class='col-sm-6 col-sm-offset-3'>
+    <form action="{%  url 'ListIndex:detail' queryset_list.id%}" method = "POST">
+        <input type='text' name='q' placeholder='Search Colleges'/>
+        <input type='submit' value='Search'/>
+    </form>
+    {% endif %}
+    </div>
+
     {%block content1%}
     <div>
     <div class='col-sm-6 col-sm-offset-3'>
