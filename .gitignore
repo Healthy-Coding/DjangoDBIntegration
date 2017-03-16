@@ -2,6 +2,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-user.py
 
 *.pyc
+
+# Project secrets
+api_key.txt
+Univ/Univ/user.py
+
+# Local databases
+*/*.sqlite3
+
