@@ -1,8 +1,7 @@
+# Compiled/Optimized files
 __pycache__/
 *.py[cod]
 *$py.class
-
-
 *.pyc
 
 # Project secrets
