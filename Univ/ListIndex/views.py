@@ -17,25 +17,17 @@ class IndexView(generic.ListView):
 
 
 def index(request):
-	queryset_list = UniversitydataCollegedata.objects.all()
-	q2 = Statedemographics.object.all()
-	stateInfo = {}
-
+	stateDemo = {}
 	latest_question_list= [UniversitydataCollegedata.objects.filter(female__lte=98).order_by('-female')[:10], UniversitydataCollegedata.objects.filter(male__lte = 98).order_by('-male')[:10], UniversitydataCollegedata.objects.order_by('-american_indian_alaskan_native')[:10]]
 	
-	for objects in latest_question_list: #Match state data
-		stateInfo[objects.university] = q2.objects.filter(objects.state)
+	for quer in latest_question_list:
+		for Univ in quer:
+			stateDemo[Univ.university] = UniversitydataCollegedata.objects.select_related()
 
-	for objects in latest_question_list[0]:
-		objects = 
-	latest_question_list.append
+	latest_question_list.append(stateDemo)
 	context = {'latest_question_list':latest_question_list}
 
-	query =request.GET.get("q")
-	if query:
-		queryset_list = queryset_list.filter(university__icontains=query)
-
-	return render(request, 'ListIndex/index.html', context, queryset_list)
+	return render(request, 'ListIndex/index.html', context)
 
 def detail(request, question_id):
     question = UniversitydataCollegedata.objects.filter(id=question_id).values()[0]
