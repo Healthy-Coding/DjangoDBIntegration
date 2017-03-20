@@ -25,8 +25,7 @@
          <img src='{{ obj.image.url }}' class='img-responsive' />
         {% endif %}
       <div class="caption post-detail-item">
-        {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %}
-        <h3><a href='{{ obj.get_absolute_url }}'>{{ obj.university }}</a> <small>{{ obj.state.location }}</small></h3>
+        <h3><a href="{% url 'UniSearch:detail'  obj.id %}">{{ obj.university }}</a> <small>{{ obj.state.location }}</small></h3>
       </div>
     </div>
   </div>
