@@ -40,13 +40,12 @@ def detail(request, question_id):
     return render(request, 'ListIndex/detail.html', {'question': question})
 
 def uni_list(request):
-	queryset_list = UniversitydataCollegedata.objects.all() #.order_by("-timestamp")
+	queryset_list = UniversitydataCollegedata.objects.all() 
 	
 	query = request.GET.get("q")
 	if query:
 		queryset_list = queryset_list.filter(
-				Q(university__icontains=query)|
-				Q(state__icontains=query)
+				Q(university__icontains=query)
 				).distinct()
 	paginator = Paginator(queryset_list, 8) # Show 25 contacts per page
 	page_request_var = "page"
