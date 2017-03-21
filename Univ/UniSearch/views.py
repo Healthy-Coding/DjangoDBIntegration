@@ -45,7 +45,8 @@ def uni_list(request):
 	query = request.GET.get("q")
 	if query:
 		queryset_list = queryset_list.filter(
-				Q(university__icontains=query)
+				Q(university__icontains=query)|
+				Q(state__location__icontains=query)
 				).distinct()
 	paginator = Paginator(queryset_list, 8) # Show 25 contacts per page
 	page_request_var = "page"
