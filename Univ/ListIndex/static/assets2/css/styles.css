@@ -24,12 +24,12 @@
   transition:.5s ease;
   bottom:2%;
   right:2%;
-  position:absolute;
-}
+  position:absolute; }
+/*}
 .thumbnail {
   position: relative;
-  width: 900px;
-  height: 200px;
+  width: 1300px;
+  height: 450px;
   overflow: hidden;
 }
 .thumbnail img {
@@ -37,8 +37,7 @@
   left: 50%;
   top: 50%;
   height: auto;
-  width: 100%;
   -webkit-transform: translate(-50%,-50%);
       -ms-transform: translate(-50%,-50%);
           transform: translate(-50%,-50%);
-}
+}*/

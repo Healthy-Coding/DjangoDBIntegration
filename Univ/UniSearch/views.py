@@ -37,7 +37,8 @@ def index(request):
 
 def detail(request, question_id):
     question = UniversitydataCollegedata.objects.filter(id=question_id).values()[0]
-    return render(request, 'ListIndex/detail.html', {'question': question})
+    question1 = UniversitydataCollegedata.objects.filter(id=question_id)[0]
+    return render(request, 'ListIndex/detail.html', {'question': question, 'question1': question1 })
 
 def uni_list(request):
 	queryset_list = UniversitydataCollegedata.objects.all() 
