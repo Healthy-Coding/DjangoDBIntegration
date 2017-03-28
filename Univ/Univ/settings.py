@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import user
+#import user
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'UniSearch.apps.UnisearchConfig',
     'ListIndex.apps.ListindexConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sprint2demoschema',
-        'USER': user.user,
-        'PASSWORD': user.password,
+        'USER': "UAP",
+        'PASSWORD': "HealthyCoding",
         'HOST': 'healthycoding-mysql.cm4twrbnv6ev.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }

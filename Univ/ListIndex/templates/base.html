@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} Home {% endblock title %} | UAP </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'ListIndex/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' %}">
+        <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/fonts/material-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/Carousel-Hero.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/user.css' %}">
+    </head>
+    <body>
+
+        {# Header #}
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'ListIndex:home' %}">Home</a></li>
+                <li><a href="{% url 'ListIndex:about' %}">About</a></li>
+            </ul>
+        </div>
+
+
+        {# Document Body #}
+        <div id="site-wrapper">
+            {% block content %}
+                Error displaying page
+            {% endblock content %}
+        </div>
+
+        {# Footer #}
+        <div id="footer">
+            <div class="container">
+                <p>The University Accountability Project</p>
+            </div>
+        </div>
+
+    </body>
+
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+            <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'assets/js/jquery.tablesorter.min.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_section %}{% endblock footer_javascript_section %}
+        {% block footer_javascript_page %}{% endblock footer_javascript_page %}
+    {% endblock footer_javascript %}
+
+</html>

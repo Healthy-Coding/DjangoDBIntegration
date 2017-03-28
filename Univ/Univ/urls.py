@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-	url(r'^UniSearch/', include('UniSearch.urls')),
+	#url(r'^UniSearch/', include('UniSearch.urls')),
 	url(r'^ListIndex/', include('ListIndex.urls')),
     url(r'^admin/', admin.site.urls),
 ]
