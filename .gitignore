@@ -5,3 +5,5 @@ __pycache__/
 user.py
 
 *.pyc
+.idea/workspace.xml
+.idea/workspace.xml

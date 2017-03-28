@@ -20,8 +20,11 @@
 </head>
 
 <body>
-    <div><img src="{% static 'assets2/img/EmoryQuad.jpg' %}" width="1060" id="EmoryQuad" ></div>
-    <div>
+<!--     <div><img src="{% static 'assets2/img/EmoryQuad.jpg' %}" width="1060" id="EmoryQuad" ></div>
+    <div> -->
+          <div class = "thumbnail" >
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/2008-07-11_UNC-CH_Wilson_Library_3.jpg/1024px-2008-07-11_UNC-CH_Wilson_Library_3.jpg" alt="Image"/></div>
+    <div>  
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header"><a class="navbar-brand navbar-link" href="#" style="font-size:2em;"><strong>{{page_name}}</strong></a>
@@ -41,6 +44,7 @@
     </div>
     <div class="container">
         <h1 id="ranking">#1 </h1>
+<<<<<<< HEAD
         <h1><strong>{{page_name}}</strong> </h1>
         <div class="row" id="body_row">
             <div class="col-md-6">
@@ -64,6 +68,32 @@
                     {% endfor %}
                     </tbody>
                 </table>
+=======
+        <h1><strong>{{question.university}}</strong> </h1>
+        <p><strong>{{question.city}}, {{question.state.location}}</strong></p>
+        <p>{{question.university}}, a top-ranked private institution recognized internationally for its outstanding liberal arts colleges, graduate and professional schools, and one of the world's leading health care systems,is located on a beautiful campus in Atlanta,
+            Georgia's historic Druid Hills neighborhood. Whatever your interest in Emory, we would welcome your visit tocampus. </p>
+        <div class="row" id="body_row">
+            <div class="col-md-6">
+                <p> State Hispanic {{ question1.state.hispanic }}</p>
+                <h1><strong>Metric Scores</strong></h1> <!-- METRIC SCORES UNIQUE TO EACH UNIVERSITY -->
+                <ul>
+                    
+                    <!--<h1>{{question.university}}</h1> -->
+
+                        <table>
+                           {% for key, value in question.items %}
+                           
+                            <tr>
+                                <td> {{ key }}:</td> <td>{{ value }}</td>
+                            </tr>
+                           {% endfor %}
+                        </table>
+
+                        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                </ul>
+                <p><strong>Total Avg : x/ y</strong></p>
+>>>>>>> origin/master
             </div>
             <div class="col-md-6">
                 <h1>Key Highlights of {{page_name}} Diversity</h1>
