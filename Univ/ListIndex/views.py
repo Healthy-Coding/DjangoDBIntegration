@@ -90,20 +90,53 @@ def detail(request, question_id):
     college_board = Collegeboard.objects.filter(university=page_name).values()[0]
     State_demos = Statedemographics.objects.filter(location=stated).values()[0]
     NCES = Scorecard.objects.filter(instnm = page_name).values()[0]
-    print"SD", State_demos
+
+    if NCES['control'] == 1:
+        financial_dict = {
+            "Median Graduating Income" : "md_earn_wne_p10",
+            "Median Graduating Debt": "grad_debt_mdn_supp",
+            "Percent Pell": "pctpell",
+            "Percent Federal Loan": "pctfloan",
+            "4 Year Retention": "ret_ft4",
+            "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
+            "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
+            "Average Net Price for $0-$30,000": "npt41_pub",
+            "Average Net Price for $30,001-$48,000": "npt42_pub",
+            "Average Net Price for $48,001-$75,000": "npt43_pub",
+            "Average Net Price for $75,001-$110,000": "npt44_pub",
+            "Average Net Price for $110,001+": "npt45_pub"
+        }
+
+    if NCES['control'] == 2:
+        financial_dict = {
+            "Median Graduating Income" : "md_earn_wne_p10",
+            "Median Graduating Debt": "grad_debt_mdn_supp",
+            "Percent Pell": "pctpell",
+            "Percent Federal Loan": "pctfloan",
+            "4 Year Retention": "ret_ft4",
+            "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
+            "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
+            "Average Net Price for $0-$30,000": "npt41_priv",
+            "Average Net Price for $30,001-$48,000": "npt42_priv",
+            "Average Net Price for $48,001-$75,000": "npt43_priv",
+            "Average Net Price for $75,001-$110,000": "npt44_priv",
+            "Average Net Price for $110,001+": "npt45_priv"
+        }
 
     headers = ["Metric", "College Data", "College Board", "National Center for Education Statistics", "State Demographics"]
     data = {}
     for display, db_key in keys.items():
-        print"display", display, "db_key", db_key
         data[display] = [college_data[db_key], college_board[db_key], NCES[db_key], State_demos[db_key]]
 
+    financials = {}
+    for display, db_key in financial_dict.items():
+        financials[display] = NCES[db_key]
 
     return render(request, 'ListIndex/detail.html',
                   {'page_name': page_name,
                    'headers':headers,
                    'data':data,
-                   'state':State_demos})
+                   'financials':financials})
 
 
 
