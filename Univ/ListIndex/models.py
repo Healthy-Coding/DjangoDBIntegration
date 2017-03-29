@@ -155,13 +155,13 @@ class Scorecard(models.Model):
     pcip54 = models.CharField(db_column='PCIP54', max_length=6, blank=True, null=True)  # Field name made lowercase.
     distanceonly = models.IntegerField(db_column='DISTANCEONLY')  # Field name made lowercase.
     ugds = models.CharField(db_column='UGDS', max_length=5, blank=True, null=True)  # Field name made lowercase.
-    ugds_white = models.CharField(db_column='UGDS_WHITE', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_black = models.CharField(db_column='UGDS_BLACK', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_hisp = models.CharField(db_column='UGDS_HISP', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_asian = models.CharField(db_column='UGDS_ASIAN', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_aian = models.CharField(db_column='UGDS_AIAN', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_nhpi = models.CharField(db_column='UGDS_NHPI', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    ugds_2mor = models.CharField(db_column='UGDS_2MOR', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    white = models.CharField(db_column='UGDS_WHITE', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    black_african_american = models.CharField(db_column='UGDS_BLACK', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    hispanic_latino = models.CharField(db_column='UGDS_HISP', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    asian = models.CharField(db_column='UGDS_ASIAN', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    american_indian_alaskan_native = models.CharField(db_column='UGDS_AIAN', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    native_hawaiian_pacific_islander = models.CharField(db_column='UGDS_NHPI', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    two_or_more_races = models.CharField(db_column='UGDS_2MOR', max_length=6, blank=True, null=True)  # Field name made lowercase.
     ugds_nra = models.CharField(db_column='UGDS_NRA', max_length=6, blank=True, null=True)  # Field name made lowercase.
     ugds_unkn = models.CharField(db_column='UGDS_UNKN', max_length=6, blank=True, null=True)  # Field name made lowercase.
     pptug_ef = models.CharField(db_column='PPTUG_EF', max_length=6, blank=True, null=True)  # Field name made lowercase.

@@ -6,7 +6,7 @@ from django.forms import ModelForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
-from .models import UniversitydataCollegedata, Statedemographics, Collegeboard
+from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard
 
 
 class IndexView(generic.ListView):
@@ -86,15 +86,17 @@ def detail(request, question_id):
     college_data = UniversitydataCollegedata.objects.filter(id=question_id).values()[0]
     page_name = college_data['university']
     stated = college_data['state_id']
+
     college_board = Collegeboard.objects.filter(university=page_name).values()[0]
     State_demos = Statedemographics.objects.filter(location=stated).values()[0]
+    NCES = Scorecard.objects.filter(instnm = page_name).values()[0]
     print"SD", State_demos
 
-    headers = ["Metric", "College Data", "College Board", "State Demographics"]
+    headers = ["Metric", "College Data", "College Board", "National Center for Education Statistics", "State Demographics"]
     data = {}
     for display, db_key in keys.items():
         print"display", display, "db_key", db_key
-        data[display] = [college_data[db_key], college_board[db_key], State_demos[db_key]]
+        data[display] = [college_data[db_key], college_board[db_key], NCES[db_key], State_demos[db_key]]
 
 
     return render(request, 'ListIndex/detail.html',
