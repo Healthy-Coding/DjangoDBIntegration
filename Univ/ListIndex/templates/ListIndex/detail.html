@@ -47,22 +47,22 @@
 <<<<<<< HEAD
         <h1><strong>{{page_name}}</strong> </h1>
         <div class="row" id="body_row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h2>Diversity Statistics</h2>
                 <table id="diversity" class="tablesorter" style="width:100%">
                     <thead>
                     <tr>
                         {% for header in headers %}
-                            <th> {{header}} </th>
+                            <th>   {{  header }}:   </th>
                         {% endfor %}
                     </tr>
                     </thead>
                     <tbody>
                     {% for key, values in data.items %}
                         <tr>
-                            <td>{{key}}</td>
+                            <td>  {{key}}  </td>
                             {% for value in values %}
-                                <td>{{value}} </td>
+                                <td> {{value}} </td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
