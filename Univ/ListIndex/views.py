@@ -80,25 +80,28 @@ def detail(request, question_id):
         "Native Hawaiian/Pacific Islander" :"native_hawaiian_pacific_islander",
         "Hispanic/Latino" :"hispanic_latino",
         "American Indian/Alaskan Native" :"american_indian_alaskan_native",
-        "Unknown" :"unknown",
         "Two or More Races" :"two_or_more_races",
-        "International" :"international"
     }
 
     college_data = UniversitydataCollegedata.objects.filter(id=question_id).values()[0]
     page_name = college_data['university']
+    stated = college_data['state_id']
     college_board = Collegeboard.objects.filter(university=page_name).values()[0]
+    State_demos = Statedemographics.objects.filter(location=stated).values()[0]
+    print"SD", State_demos
 
-    headers = ["Metric", "College Data", "College Board"]
+    headers = ["Metric", "College Data", "College Board", "State Demographics"]
     data = {}
     for display, db_key in keys.items():
-        data[display] = [college_data[db_key], college_board[db_key]]
+        print"display", display, "db_key", db_key
+        data[display] = [college_data[db_key], college_board[db_key], State_demos[db_key]]
 
 
     return render(request, 'ListIndex/detail.html',
                   {'page_name': page_name,
                    'headers':headers,
-                   'data':data})
+                   'data':data,
+                   'state':State_demos})
 
 
 
