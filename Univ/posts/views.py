@@ -56,7 +56,7 @@ def post_create(request):
 	context = {
 		"form": form,
 	}
-	return render(request, "post_form.html", context)
+	return render(request, "Blog/post_form.html", context)
 
 def post_detail(request, slug=None):
 	instance = get_object_or_404(Post, slug=slug)
@@ -105,7 +105,7 @@ def post_detail(request, slug=None):
 		"comments": comments,
 		"comment_form":form,
 	}
-	return render(request, "post_detail.html", context)
+	return render(request, "Blog/post_detail.html", context)
 
 def post_list(request):
 	today = timezone.now().date()
@@ -140,7 +140,7 @@ def post_list(request):
 		"page_request_var": page_request_var,
 		"today": today,
 	}
-	return render(request, "post_list.html", context)
+	return render(request, "Blog/post_list.html", context)
 
 
 
