@@ -5,5 +5,9 @@ __pycache__/
 user.py
 
 *.pyc
+
+.idea
 .idea/workspace.xml
-.idea/workspace.xml
+
+Univ/deprecated/*
+

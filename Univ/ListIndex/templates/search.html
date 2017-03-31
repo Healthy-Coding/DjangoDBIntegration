@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} Search {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>Universities</h1>
+<form method='GET' action='' class='row'>
+<div class='col-sm-6'>
+<div class='input-group'>
+    <input class='form-control' type='text' name='q' placeholder='Search Colleges' value='{{ request.GET.q }}'/>
+    <span class='input-group-btn'>
+        <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
+        <button class='btn btn-default' type='submit'>Search <i class="fa fa-search"></i></button>
+    </span>
+</div>
+</div>
+</form>
+{% if found %}
+    {% for result in found %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="caption post-detail-item">
+                    <h3><a href="{% url 'ListIndex:college' result.id %}">{{ result.university }}</a> <small>{{ result.state.location }}</small></h3>
+                </div>
+            </div>
+            <hr/>
+        </div>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+        {% if found.has_previous %}
+            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+    {% if object_list.has_next %}
+        <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+    {% endif %}
+    </span>
+{% else %}
+    <p>Could not find</p>
+{% endif %}
+
+</div>
+
+</div>
+{% endblock content %}
