@@ -4,7 +4,10 @@
 {% block content %}
 
 {% load static %}
+{% load ratings %}
 
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 
 
 <div class='col-sm-6 col-sm-offset-3'>
@@ -35,6 +38,8 @@
 
         {% if obj.user.get_full_name %}<p>Author: {{ obj.user.get_full_name }}</p>{% endif %}
         {{ obj.get_markdown|truncatechars_html:120 }}
+         
+        <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p> {% ratings obj %}
          
       </div>
     </div>
