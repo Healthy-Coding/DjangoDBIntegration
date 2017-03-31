@@ -3,16 +3,19 @@
 {% load crispy_forms_tags %}
 
 {% load static %}
+{% load ratings %}
+
 
 {% block head_title %}
 {{ instance.title }} | {{ block.super }}
 {% endblock head_title %}
 
 
+
+
  {% block post_detail_link %}
   <li><a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a></li>
   {% endblock %}
-
 
 
 {% block content %}
@@ -24,6 +27,7 @@
 
 <!-- {% if instance.read_time|time:"i" <= "01" %} < 1 minute {% else %}{{ instance.read_time|time:"i" }} minutes {% endif %} -->
 
+{% ratings instance %}
 
 <p>Read time: {% if instance.read_time <= 1 %} < 1 Minute {% else %}{{ instance.read_time }} minutes {% endif %}</p>
 {% if instance.user.get_full_name %}
