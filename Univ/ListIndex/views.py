@@ -1,15 +1,16 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.forms import ModelForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.views.generic.list import ListView
 
 from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard
 
+class IndexView(ListView):
 
-class IndexView(generic.ListView):
     template_name = 'ListIndex/index.html'
     context_object_name = 'latest_question_list'
 
@@ -36,17 +37,57 @@ def index(request):
     return render(request, 'ListIndex/index.html', context)
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'nbar':'home'})
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'about.html', {'nbar':'about'})
 
+def search(request):
+    queryset_list = UniversitydataCollegedata.objects.all()
+
+    query = request.GET.get("q")
+
+    if query:
+        found_search = queryset_list.filter(
+            Q(university__icontains=query) |
+            Q(state__location__icontains=query)
+        ).distinct()
+    else:
+        found_search = None
+    return render(request, 'search.html', {'nbar' :'search', 'found' :found_search})
+
+def college(request, c_id):
+    keys = {
+        "Asian" :"asian",
+        "White" :"white",
+        "Black/African-American" :"black_african_american",
+        "Native Hawaiian/Pacific Islander" :"native_hawaiian_pacific_islander",
+        "Hispanic/Latino" :"hispanic_latino",
+        "American Indian/Alaskan Native" :"american_indian_alaskan_native",
+        "Unknown" :"unknown",
+        "Two or More Races" :"two_or_more_races",
+        "International" :"international"
+    }
+
+    college_data = UniversitydataCollegedata.objects.filter(id=c_id).values()[0]
+    page_name = college_data['university']
+    college_board = Collegeboard.objects.filter(university=page_name).values()[0]
+
+    headers = ["Metric", "College Data", "College Board"]
+    data = {}
+    for display, db_key in keys.items():
+        data[display] = [college_data[db_key], college_board[db_key]]
+
+
+    return render(request, 'college.html',
+                  {'page_name': page_name})
 
 
 def uni_list(request):
     queryset_list = UniversitydataCollegedata.objects.all()
 
     query = request.GET.get("q")
+
     if query:
         queryset_list = queryset_list.filter(
             Q(university__icontains=query) |
@@ -69,8 +110,13 @@ def uni_list(request):
         "title": "List",
         "page_request_var": page_request_var,
     }
-    return render(request, "search/list.html", context)
+    return render(request, "search.html", context)
 
+def redirect_to_home(request):
+    return redirect()
+
+def handler404(request):
+    return render(request, '404.html', status=400)
 
 def detail(request, question_id):
     keys = {
@@ -137,13 +183,69 @@ def detail(request, question_id):
     for display, db_key in keys.items():
         data[display] = [college_data[db_key], college_board[db_key], NCES[db_key], State_demos[db_key]]
 
+    #Do Graphs 
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    import mpld3
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    LowestQuartileNPTs = Scorecard.objects.values_list('npt41_priv', flat = True)
+    forGraph = []
+    for items in LowestQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph.append(float(items))
+
+    SecondQuartileNPTs = Scorecard.objects.values_list('npt42_priv', flat = True)
+    forGraph2 = []
+    for items in SecondQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph2.append(float(items))
+
+    ThirdQuartileNPTs = Scorecard.objects.values_list('npt43_priv', flat = True)
+    forGraph3 = []
+    for items in ThirdQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph3.append(float(items))
+
+    FourthQuartileNPTs = Scorecard.objects.values_list('npt44_priv', flat = True)
+    forGraph4 = []
+    for items in FourthQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph4.append(float(items))
+
+    FifthQuartileNPTs = Scorecard.objects.values_list('npt45_priv', flat = True)
+    forGraph5 = []
+    for items in FifthQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph5.append(float(items))
+
+    Quarts = [forGraph , forGraph2, forGraph3, forGraph4, forGraph5]
+    ax.boxplot(Quarts, positions = [1,2,3,4,5])
+    ax.set_xticklabels(['$30,000', '$48,000', '$75,000', '$110,000'])
+    graph = mpld3.fig_to_html(fig)
+
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111)
+    # ax.plot([1,2,3])
+    # graph = mpld3.fig_to_html(fig)
+
+    #LowestQuartileNPTs = Scorecard.objects.values_list('npt41_priv', flat =True)
 
 
     return render(request, 'ListIndex/detail.html',
                   {'page_name': page_name,
                    'headers':headers,
                    'data':data,
-                   'financials':financials})
+                   'financials':financials,
+                   'graph': graph, })
+                   #'test': LowestQuartileNPTs})
 
 
 
