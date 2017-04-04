@@ -110,7 +110,7 @@ def uni_list(request):
         "title": "List",
         "page_request_var": page_request_var,
     }
-    return render(request, "search.html", context)
+    return render(request, "search/list.html", context)
 
 def redirect_to_home(request):
     return redirect()
@@ -134,6 +134,7 @@ def detail(request, question_id):
     stated = college_data['state_id']
 
     State_demos = Statedemographics.objects.filter(location=stated).values()[0]
+    Quart_dict = {}
     try:
         college_board = Collegeboard.objects.filter(university=page_name).values()[0]
         NCES = Scorecard.objects.filter(instnm = page_name).values()[0]
@@ -154,6 +155,8 @@ def detail(request, question_id):
                 "Average Net Price for $110,001+": "npt45_pub"
             }
 
+            Quart_dict = {"npt41_pub": 0 , "npt42_pub": 0, "npt43_pub": 0, "npt44_pub":0, "npt45_pub":0}
+
         if NCES['control'] == 2:
             financial_dict = {
                 "Median Graduating Income" : "md_earn_wne_p10",
@@ -169,6 +172,7 @@ def detail(request, question_id):
                 "Average Net Price for $75,001-$110,000": "npt44_priv",
                 "Average Net Price for $110,001+": "npt45_priv"
             }
+            Quart_dict = {"npt41_priv": 0 , "npt42_priv": 0, "npt43_priv": 0, "npt44_priv":0, "npt45_priv":0}
 
         financials = {}
         for display, db_key in financial_dict.items():
@@ -185,58 +189,50 @@ def detail(request, question_id):
 
     #Do Graphs 
     import matplotlib
-    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     import mpld3
+    import numpy
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    LowestQuartileNPTs = Scorecard.objects.values_list('npt41_priv', flat = True)
-    forGraph = []
-    for items in LowestQuartileNPTs:
-        #print"items", items
-        if items not in 'NULL':
-            forGraph.append(float(items))
+    Quarts = []
+    for key, values in Quart_dict.iteritems(): #Get Boxplots for each quartile
+        LowestQuartileNPTs = Scorecard.objects.values_list(key, flat = True)
+        forGraph = []
+        for items in LowestQuartileNPTs:
+            if items not in 'NULL':
+                forGraph.append(float(items))
+        Quarts.append(forGraph)
 
-    SecondQuartileNPTs = Scorecard.objects.values_list('npt42_priv', flat = True)
-    forGraph2 = []
-    for items in SecondQuartileNPTs:
-        #print"items", items
-        if items not in 'NULL':
-            forGraph2.append(float(items))
+    college_specs = {} #Get college specific values
+    count = 0    
+    for key, values in Quart_dict.iteritems():
+        count += 1
+        college_specs[count] = NCES[key]
 
-    ThirdQuartileNPTs = Scorecard.objects.values_list('npt43_priv', flat = True)
-    forGraph3 = []
-    for items in ThirdQuartileNPTs:
-        #print"items", items
-        if items not in 'NULL':
-            forGraph3.append(float(items))
-
-    FourthQuartileNPTs = Scorecard.objects.values_list('npt44_priv', flat = True)
-    forGraph4 = []
-    for items in FourthQuartileNPTs:
-        #print"items", items
-        if items not in 'NULL':
-            forGraph4.append(float(items))
-
-    FifthQuartileNPTs = Scorecard.objects.values_list('npt45_priv', flat = True)
-    forGraph5 = []
-    for items in FifthQuartileNPTs:
-        #print"items", items
-        if items not in 'NULL':
-            forGraph5.append(float(items))
-
-    Quarts = [forGraph , forGraph2, forGraph3, forGraph4, forGraph5]
+    #Finally plot
     ax.boxplot(Quarts, positions = [1,2,3,4,5])
-    ax.set_xticklabels(['$30,000', '$48,000', '$75,000', '$110,000'])
+    for cnt, val in college_specs.iteritems():
+        plt.plot(cnt,float(val), color = 'r', marker = '*', markeredgecolor = 'k', markersize=25)
+    plt.xticks([1,2,3,4,5],['$30,000', '$48,000', '$75,000', '$110,000' ,'$110,000+'])
+    top = 100000
+    ax.set_ylim(0, top)
     graph = mpld3.fig_to_html(fig)
 
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111)
-    # ax.plot([1,2,3])
-    # graph = mpld3.fig_to_html(fig)
+    #Median Graduating Income
+    MGI_all = Scorecard.objects.values_list( 'md_earn_wne_p10' ,flat=True)
+    Most = Scorecard.objects.filter( md_earn_wne_p10__gte = 200000)
+                   # UniversitydataCollegedata.objects.filter(male__lte=98).order_by('-male')[:10],
 
-    #LowestQuartileNPTs = Scorecard.objects.values_list('npt41_priv', flat =True)
+    MGIGraph = []
+    for items in MGI_all:
+        if items not in ['NULL', 'PrivacySuppressed']:
+            MGIGraph.append(float(items))
+    fig2 = plt.figure()
+    ax2 = fig2.add_subplot(111)
+    ax2.boxplot(MGIGraph)
+    plt.plot(1, float(NCES['md_earn_wne_p10']), color = 'r', marker = '*', markeredgecolor = 'k', markersize=25)
+    graph2 = mpld3.fig_to_html(fig2)
 
 
     return render(request, 'ListIndex/detail.html',
@@ -244,22 +240,9 @@ def detail(request, question_id):
                    'headers':headers,
                    'data':data,
                    'financials':financials,
-                   'graph': graph, })
-                   #'test': LowestQuartileNPTs})
+                   'graph': graph, 
+                   'Most':Most,
+                   'graph2': graph2} )
 
 
 
-    # class DetailView(generic.DetailView):
-    # 	model = UniversitydataCollegedata
-    # 	template_name = 'ListIndex/detail.html'
-    # 	context_object_name = 'latest_question_list'
-
-
-    # 	def detail(request, object_id):
-    # 	   thing = UniversitydataCollegedata.objects.filter(id=object_id).values()
-    # 	   return render_to_response('ListIndex/detail.html', {'thing': thing})
-
-    # 	def show(request, object_id):
-    # 	   thing = UniversitydataCollegedata.objects.filter(id=object_id).values()
-    # 	   return render_to_response('ListIndex/detail.html', {'thing': thing})
-    # context_object_name = 'latest_question_list'
