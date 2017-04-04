@@ -134,7 +134,6 @@ def detail(request, question_id):
     stated = college_data['state_id']
 
     State_demos = Statedemographics.objects.filter(location=stated).values()[0]
-    Quart_dict = {}
     try:
         college_board = Collegeboard.objects.filter(university=page_name).values()[0]
         NCES = Scorecard.objects.filter(instnm = page_name).values()[0]
@@ -155,8 +154,6 @@ def detail(request, question_id):
                 "Average Net Price for $110,001+": "npt45_pub"
             }
 
-            Quart_dict = {"npt41_pub": 0 , "npt42_pub": 0, "npt43_pub": 0, "npt44_pub":0, "npt45_pub":0}
-
         if NCES['control'] == 2:
             financial_dict = {
                 "Median Graduating Income" : "md_earn_wne_p10",
@@ -172,7 +169,6 @@ def detail(request, question_id):
                 "Average Net Price for $75,001-$110,000": "npt44_priv",
                 "Average Net Price for $110,001+": "npt45_priv"
             }
-            Quart_dict = {"npt41_priv": 0 , "npt42_priv": 0, "npt43_priv": 0, "npt44_priv":0, "npt45_priv":0}
 
         financials = {}
         for display, db_key in financial_dict.items():
@@ -195,25 +191,43 @@ def detail(request, question_id):
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    Quarts = []
-    for key, values in Quart_dict.iteritems(): #Get Boxplots for each quartile
-        LowestQuartileNPTs = Scorecard.objects.values_list(key, flat = True)
-        forGraph = []
-        for items in LowestQuartileNPTs:
-            if items not in 'NULL':
-                forGraph.append(float(items))
-        Quarts.append(forGraph)
+    LowestQuartileNPTs = Scorecard.objects.values_list('npt41_priv', flat = True)
+    forGraph = []
+    for items in LowestQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph.append(float(items))
 
-    college_specs = {} #Get college specific values
-    count = 0    
-    for key, values in Quart_dict.iteritems():
-        count += 1
-        college_specs[count] = NCES[key]
+    SecondQuartileNPTs = Scorecard.objects.values_list('npt42_priv', flat = True)
+    forGraph2 = []
+    for items in SecondQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph2.append(float(items))
 
-    #Finally plot
+    ThirdQuartileNPTs = Scorecard.objects.values_list('npt43_priv', flat = True)
+    forGraph3 = []
+    for items in ThirdQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph3.append(float(items))
+
+    FourthQuartileNPTs = Scorecard.objects.values_list('npt44_priv', flat = True)
+    forGraph4 = []
+    for items in FourthQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph4.append(float(items))
+
+    FifthQuartileNPTs = Scorecard.objects.values_list('npt45_priv', flat = True)
+    forGraph5 = []
+    for items in FifthQuartileNPTs:
+        #print"items", items
+        if items not in 'NULL':
+            forGraph5.append(float(items))
+
+    Quarts = [forGraph , forGraph2, forGraph3, forGraph4, forGraph5]
     ax.boxplot(Quarts, positions = [1,2,3,4,5])
-    for cnt, val in college_specs.iteritems():
-        plt.plot(cnt,float(val), color = 'y', marker = '*', markeredgecolor = 'k')
     ax.set_xticklabels(['$30,000', '$48,000', '$75,000', '$110,000'])
     graph = mpld3.fig_to_html(fig)
 
