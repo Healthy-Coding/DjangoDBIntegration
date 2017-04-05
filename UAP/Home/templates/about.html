@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} About {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AboutUs</title>
+    <!-- <link rel="stylesheet" href="{% static 'assets2/bootstrap/css/bootstrap.min.css' %}"> -->
+
+</head>
+
+<div class="container" id="top">
+    <h1 id="main">About Us</h1></div>
+        <div class="row">
+        <div class="col-md-6" id="uap_goal"><i class="glyphicon glyphicon-flag" id="flag"></i>
+        <h3>UAP Goal</h3>
+        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="col-md-6" id="uap_goal_pic"><img class="img-rounded" src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" id="emory_quad"></div>
+        </div>
+        <div class="row">
+        <div class="col-md-6"><img class="img-rounded" src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" id="healthy_coding_pic"></div>
+        <div class="col-md-6">
+        <h3>Healthy Coding</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+        </div>
+        </div>
+        <div class="row" id="healthy_coding">
+        <div class="col-md-12">
+        <h3>Software Used: <a href="https://github.com/Healthy-Coding">Healthy Coding Github</a></h3></div>
+    </div>
+</div>
+
+{% endblock content %}

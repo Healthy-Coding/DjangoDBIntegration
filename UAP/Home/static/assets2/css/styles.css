@@ -1,0 +1,73 @@
+#main {
+  font-size:64px;
+  text-align:center;
+  padding:36px;
+  border-bottom-style:groove;
+}
+
+#uap_goal {
+  margin-bottom:100px;
+  padding:60px;
+}
+
+#uap_goal_pic {
+  margin-bottom:100px;
+  padding:10px;
+  /*display:block;*/
+  /*margin:auto;*/
+}
+
+#flag {
+  font-size:52px;
+  position:absolute;
+  left:50%;
+  right:50%;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+#top {
+  margin-bottom:50px;
+  padding-bottom:100px;
+}
+
+#healthy_coding {
+  margin-bottom:100px;
+  padding:20px;
+  margin-top:30px;
+}
+
+#cap {
+  font-size:96px;
+  position:absolute;
+  right:50%;
+  left:50%;
+  top:20%;
+}
+
+#cap {
+}
+
+#emory_quad {
+  border-radius:5%;
+  border:1px solid #ddd;
+  display:block;
+  margin:auto;
+  width:90%;
+  margin-top:80px;
+  margin-left:20px;
+}
+
+h {
+}
+
+#healthy_coding_pic {
+  display:block;
+  margin:auto;
+  width:90%;
+  margin-top:30px;
+  margin-left:20px;
+  border-radius:5%;
+  border:1px solid #ddd;
+}
+

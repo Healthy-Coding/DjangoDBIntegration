@@ -1,3 +1,0 @@
-username = "UAP"
-password = "HealthyCoding"
-
