@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'pagedown',
 
     # local apps
-    'django_seed',
+    #'django_seed',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -37,6 +37,7 @@ class PostSearchListView(PostListView):
 
 class PostDetailView(generic.DetailView):
     model = Post
+    template_name = 'Resources/detail.html'
 
 
 def post_list(request):
