@@ -11,3 +11,8 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html', {'nbar': 'about'})
+
+
+def contact(request):
+    return render(request, 'contact.html', {'nbar': 'contact'})
+
