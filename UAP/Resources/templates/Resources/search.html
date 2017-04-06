@@ -43,7 +43,10 @@
                 {% for r in results %}
                     <div class="thumbnail">
                         <a href="{{ r.get_absolute_url }}">{{ r.title }}</a>
-                        <p>{{ r.content }}</p>
+                        <br>
+                            Counter Arguments below:
+                        {{ r.get_markdown }}
+
                     </div>
                 {% endfor %}
             {% else %}
