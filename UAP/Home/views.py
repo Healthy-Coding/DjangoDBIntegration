@@ -25,6 +25,7 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             # TODO: Add what is done with the form here
+
             return HttpResponseRedirect('/thanks/')
             #return
 

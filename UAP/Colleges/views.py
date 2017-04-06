@@ -2,9 +2,63 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.db.models import Q
-
+from django.http import HttpResponseRedirect
 # Models used in these views
 from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard
+
+from django.views.generic.edit import FormMixin
+from django.views.generic import ListView
+from .forms import SimpleSearchForm
+
+
+def search(request):
+    if request.method == "POST":
+        form = SimpleSearchForm(request.POST)
+        if form.is_valid():
+            queryset_list = UniversitydataCollegedata.objects.all()
+            query = form.cleaned_data['query']
+
+            if query != "":
+                 queryset_list = queryset_list.filter(
+                     Q(university__icontains=query)
+                 ).distinct()
+
+            # TODO: Add what is done with the form here
+            return HttpResponseRedirect('/thanks/')
+
+    else:
+        form = SimpleSearchForm()
+        return render(request, "Colleges/searchtest.html", {'form': form})
+
+from django.views.generic.edit import FormMixin
+from django.views.generic import ListView
+
+class FilteredListView(FormMixin, ListView):
+    def get_form_kwargs(self):
+        return {
+          'initial': self.get_initial(),
+          'prefix': self.get_prefix(),
+          'data': self.request.GET or None
+        }
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+
+        form = self.get_form(self.get_form_class())
+
+        if form.is_valid():
+            self.object_list = form.filter_queryset(request, self.object_list)
+
+        context = self.get_context_data(form=form, object_list=self.object_list)
+        return self.render_to_response(context)
+
+
+college_list = FilteredListView.as_view(
+    form_class=SimpleSearchForm,
+    template_name='Colleges/list.html',
+    queryset=UniversitydataCollegedata.objects.all(),
+    paginate_by=10
+)
 
 
 def uni_list(request):
@@ -48,7 +102,7 @@ def college(request, c_id):
         "Native Hawaiian/Pacific Islander": "native_hawaiian_pacific_islander",
         "Hispanic/Latino": "hispanic_latino",
         "American Indian/Alaskan Native": "american_indian_alaskan_native",
-        "Two or More Races": "two_or_more_races",
+        "Two or More Races": "multi_race",
     }
 
     college_data = UniversitydataCollegedata.objects.filter(id=c_id).values()[0]
@@ -113,8 +167,10 @@ def college(request, c_id):
                "National Center for Education Statistics", "State Demographics"]
     data = {}
     for display, db_key in keys.items():
-        data[display] = [college_data[db_key], college_board[
-            db_key], NCES[db_key], State_demos[db_key]]
+        data[display] = [college_data[db_key],
+                         college_board[db_key],
+                         NCES[db_key],
+                         State_demos[db_key]]
 
     # Do Graphs
     import matplotlib

@@ -8,4 +8,3 @@ class ContactForm(forms.Form):
 
     sender = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                             'placeholder': 'Enter Email'}))
-
