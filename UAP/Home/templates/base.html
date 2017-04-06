@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load static %}
+{% load markdown_deux_tags %}
 
 <html lang="en">
     <head>
@@ -61,4 +62,9 @@
         {% block footer_javascript_section %}{% endblock footer_javascript_section %}
         {% block footer_javascript_page %}{% endblock footer_javascript_page %}
     {% endblock footer_javascript %}
+
+    {% block markdown_javascript %}
+        <script src="{% static 'assets/js/jquery.markdown.min.js' %}"></script>
+        <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    {% endblock markdown_javascript %}
 </html>
