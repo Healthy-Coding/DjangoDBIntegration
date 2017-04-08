@@ -9,6 +9,7 @@ from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, 
 from django.views.generic.edit import FormMixin
 from django.views.generic import ListView
 from .forms import SimpleSearchForm
+import json
 
 
 def search(request):
@@ -172,55 +173,64 @@ def college(request, c_id):
                          NCES[db_key],
                          State_demos[db_key]]
 
-    # Do Graphs
-    import matplotlib
-    import matplotlib.pyplot as plt
-    import mpld3
-    import numpy
+    if False:
+        # Do Graphs
+        import matplotlib
+        import matplotlib.pyplot as plt
+        import mpld3
+        import numpy
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    Quarts = []
-    for key, values in Quart_dict.items():  # Get Boxplots for each quartile
-        LowestQuartileNPTs = Scorecard.objects.values_list(key, flat=True)
-        forGraph = []
-        for items in LowestQuartileNPTs:
-            if items not in 'NULL':
-                forGraph.append(float(items))
-        Quarts.append(forGraph)
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        Quarts = []
+        for key, values in Quart_dict.items():  # Get Boxplots for each quartile
+            LowestQuartileNPTs = Scorecard.objects.values_list(key, flat=True)
+            forGraph = []
+            for items in LowestQuartileNPTs:
+                if items not in 'NULL':
+                    forGraph.append(float(items))
+            Quarts.append(forGraph)
 
-    college_specs = {}  # Get college specific values
-    count = 0
-    for key, values in Quart_dict.items():
-        count += 1
-        college_specs[count] = NCES[key]
+        college_specs = {}  # Get college specific values
+        count = 0
+        for key, values in Quart_dict.items():
+            count += 1
+            college_specs[count] = NCES[key]
 
-    # Finally plot
-    ax.boxplot(Quarts, positions=[1, 2, 3, 4, 5])
-    for cnt, val in college_specs.items():
-        plt.plot(cnt, float(val), color='r', marker='*',
-                 markeredgecolor='k', markersize=25)
-    plt.xticks([1, 2, 3, 4, 5], ['$30,000', '$48,000',
-                                 '$75,000', '$110,000', '$110,000+'])
-    top = 100000
-    ax.set_ylim(0, top)
-    graph = mpld3.fig_to_html(fig)
+        # Finally plot
+        ax.boxplot(Quarts, positions=[1, 2, 3, 4, 5])
+        for cnt, val in college_specs.items():
+            plt.plot(cnt, float(val), color='r', marker='*',
+                     markeredgecolor='k', markersize=25)
+        plt.xticks([1, 2, 3, 4, 5], ['$30,000', '$48,000',
+                                     '$75,000', '$110,000', '$110,000+'])
+        top = 100000
+        ax.set_ylim(0, top)
+        graph = mpld3.fig_to_html(fig)
 
-    # Median Graduating Income
-    MGI_all = Scorecard.objects.values_list('md_earn_wne_p10', flat=True)
-    Most = Scorecard.objects.filter(md_earn_wne_p10__gte=200000)
-    # UniversitydataCollegedata.objects.filter(male__lte=98).order_by('-male')[:10],
+        # Median Graduating Income
+        MGI_all = Scorecard.objects.values_list('md_earn_wne_p10', flat=True)
+        Most = Scorecard.objects.filter(md_earn_wne_p10__gte=200000)
+        # UniversitydataCollegedata.objects.filter(male__lte=98).order_by('-male')[:10],
 
-    MGIGraph = []
-    for items in MGI_all:
-        if items not in ['NULL', 'PrivacySuppressed']:
-            MGIGraph.append(float(items))
-    fig2 = plt.figure()
-    ax2 = fig2.add_subplot(111)
-    ax2.boxplot(MGIGraph)
-    plt.plot(1, float(NCES['md_earn_wne_p10']), color='r',
-             marker='*', markeredgecolor='k', markersize=25)
-    graph2 = mpld3.fig_to_html(fig2)
+        MGIGraph = []
+        for items in MGI_all:
+            if items not in ['NULL', 'PrivacySuppressed']:
+                MGIGraph.append(float(items))
+
+        fig2 = plt.figure()
+        ax2 = fig2.add_subplot(111)
+        ax2.boxplot(MGIGraph)
+        plt.plot(1, float(NCES['md_earn_wne_p10']), color='r',
+                 marker='*', markeredgecolor='k', markersize=25)
+        graph2 = mpld3.fig_to_html(fig2)
+
+    google_graph = []
+    google_graph.append(['key', 'value'])
+
+    for k, v in data.items():
+        google_graph.append([k, float(v[0])])
+
 
     return render(request, 'Colleges/detail.html',
                   {'nbar': 'colleges',
@@ -228,6 +238,7 @@ def college(request, c_id):
                    'headers': headers,
                    'data': data,
                    'financials': financials,
-                   'graph': graph,
-                   'Most': Most,
-                   'graph2': graph2})
+                   'google_graph': google_graph})
+                   #'graph': graph,
+                   #'Most': Most,
+                   #'graph2': graph2})
