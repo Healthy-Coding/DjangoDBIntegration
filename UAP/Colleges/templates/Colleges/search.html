@@ -4,72 +4,22 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <h1>Colleges</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>College Search Test</h1>
+            </div>
         </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
-            <form method='GET' action='' class='row'>
-                    <div class='col-sm-6'>
-                        <div class='input-group'>
-                            <input class='form-control' type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
-                            <span class='input-group-btn'>
-                                <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
-                                <button class='btn btn-default' type='submit'>Search <i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
-            </form>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <form action="?page=1" method="POST">{% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="save btn btn-default">Send</button>
+                </form>
+            </div>
         </div>
+        {% if results != None %}
+            {% include 'Colleges/results.html' %}
+        {% endif %}
     </div>
-
-    <div class="row">
-        <p></p>
-    </div>
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
-            {% if results is None %}
-                <p>Look at our helpful resources!</p>
-            {% elif results|length > 0 %}
-                {% if results|length == 1 %}
-                    <p>Found 1 resource matching {{query}}</p>
-                {% else %}
-                    <p>Found {{results.paginator.count}} resources matching {{query}}</p>
-                {% endif %}
-
-                {% for r in results %}
-                    <div class="thumbnail">
-                        <a href="{{ r.get_absolute_url }}">{{ r.university }}</a>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>Couldn't find any resources matching {{query}}</p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="pagination">
-            <span class="step-links">
-                {% if results.has_previous %}
-                    <a href="?{{ page_request_var }}={{ results.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ results.number }} of {{ results.paginator.num_pages }}
-                </span>
-
-                {% if results.has_next %}
-                    <a href="?{{ page_request_var }}={{ results.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
-                {% endif %}
-            </span>
-        </div>
-    </div>
-</div>
-
-
 {% endblock %}

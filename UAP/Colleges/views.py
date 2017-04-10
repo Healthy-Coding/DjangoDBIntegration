@@ -1,15 +1,8 @@
-# Pagination, rendering, and simple query construction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponseRedirect
-# Models used in these views
 from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard
-
-from django.views.generic.edit import FormMixin
-from django.views.generic import ListView
 from .forms import SimpleSearchForm
-import json
 
 
 def search(request):
@@ -17,82 +10,90 @@ def search(request):
         form = SimpleSearchForm(request.POST)
         if form.is_valid():
             queryset_list = UniversitydataCollegedata.objects.all()
+
             query = form.cleaned_data['query']
+            paginate_by = int(form.cleaned_data['paginate_by'])
 
             if query != "":
                  queryset_list = queryset_list.filter(
                      Q(university__icontains=query)
                  ).distinct()
 
-            # TODO: Add what is done with the form here
-            return HttpResponseRedirect('/thanks/')
+            if queryset_list.count() > paginate_by:
+                page = request.GET.get("page")
+                paginator = Paginator(queryset_list, paginate_by)
+
+                pagination = True
+                try:
+                    queryset_list = paginator.page(page)
+                except PageNotAnInteger:
+                    # If page is not an integer, deliver first page.
+                    queryset_list = paginator.page(1)
+                except EmptyPage:
+                    # If page is out of range (e.g. 9999), deliver last page of results.
+                    queryset_list = paginator.page(paginator.num_pages)
+            else:
+                pagination = False
+
+            return render(request,"Colleges/search.html", {'form': form,
+                                                           'results': queryset_list,
+                                                           'pagination': pagination,
+                                                           'nbar': 'colleges'})
 
     else:
         form = SimpleSearchForm()
-        return render(request, "Colleges/searchtest.html", {'form': form})
-
-from django.views.generic.edit import FormMixin
-from django.views.generic import ListView
-
-class FilteredListView(FormMixin, ListView):
-    def get_form_kwargs(self):
-        return {
-          'initial': self.get_initial(),
-          'prefix': self.get_prefix(),
-          'data': self.request.GET or None
-        }
-
-    def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-
-        form = self.get_form(self.get_form_class())
-
-        if form.is_valid():
-            self.object_list = form.filter_queryset(request, self.object_list)
-
-        context = self.get_context_data(form=form, object_list=self.object_list)
-        return self.render_to_response(context)
-
-
-college_list = FilteredListView.as_view(
-    form_class=SimpleSearchForm,
-    template_name='Colleges/list.html',
-    queryset=UniversitydataCollegedata.objects.all(),
-    paginate_by=10
-)
+        return render(request, "Colleges/search.html", {'form': form, 'results': None, 'nbar': 'colleges'})
 
 
 def uni_list(request):
     queryset_list = UniversitydataCollegedata.objects.all()
-
     query = request.GET.get("q")
 
-    if query:
+    if query is not None:
         queryset_list = queryset_list.filter(
             Q(university__icontains=query) |
             Q(state__location__icontains=query)
         ).distinct()
 
-    paginator = Paginator(queryset_list, 10)  # Show 25 contacts per page
-    page_request_var = "page"
-    page = request.GET.get(page_request_var)
-    try:
-        queryset = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        queryset = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        queryset = paginator.page(paginator.num_pages)
+        page_request_var = "page"
+        paginate_by = 10
 
-    context = {
-        "nbar": "colleges",
-        "results": queryset,
-        "title": "List",
-        "page_request_var": page_request_var,
-    }
+        if queryset_list.count() > paginate_by:
+            pagination = True
+            paginator = Paginator(queryset_list, 10)
+            page = request.GET.get(page_request_var)
+            try:
+                queryset = paginator.page(page)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                queryset = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                queryset = paginator.page(paginator.num_pages)
+        else:
+            queryset = queryset_list
+            pagination = False
 
-    return render(request, "Colleges/search.html", context)
+        context = {
+            "nbar": "colleges",
+            "results": queryset,
+            "title": "List",
+            "page_request_var": page_request_var,
+            "pagination": pagination
+        }
+
+        return render(request, "Colleges/search.html", context)
+
+    else:
+        context = {
+            "nbar": "colleges",
+            "results": None,
+            "title": "List",
+            "page_request_var": None,
+        }
+
+        return render(request, "Colleges/search.html", context)
+
 
 
 def college(request, c_id):
