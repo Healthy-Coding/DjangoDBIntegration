@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import ContactForm
+from .models import Contact
+from datetime import datetime
 
 
 def handler404(request):
@@ -20,16 +22,18 @@ def thanks(request):
 
 
 def contact(request):
-    # Need to process the data
+    # Template sends back post request -- bind form data to a new Contact model
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # TODO: Add what is done with the form here
-
+            # TODO: Contact object needs to exist in the database
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            email = form.cleaned_data['sender']
+            c = Contact(subject=subject, content=message, sender=email, time_sent=datetime.utcnow())
+            # c.save()
             return HttpResponseRedirect('/thanks/')
-            #return
 
-    # Need to provide form for user input
+    # Get request means view renders a blank form
     else:
-        form = ContactForm()
-        return render(request, 'contact.html', {'nbar': 'contact', 'form': form})
+        return render(request, 'contact.html', {'nbar': 'contact', 'form': ContactForm()})
