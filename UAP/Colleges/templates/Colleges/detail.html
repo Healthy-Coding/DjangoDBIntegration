@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- Link to flag this page -->
     <div class="row">
-        <div class="col-md-4 col-md-offset-7 text-right">
+        <div class="col-md-11 text-right">
             <a href="{% url 'Colleges:flag_page' id %}" class="btn btn-link">See something wrong with this page? Let us know!<span class="glyphicon glyphicon-flag"></span></a>
         </div>
     </div>
@@ -15,9 +15,12 @@
     <!-- College name and picture -->
     <div class="row">
         <div class="col-md-5 col-md-offset-1">
-            <h1><u>{{page_name}}</u>    <small>{{city}},{{state}}</small></h1>
+            <h1><u>{{page_name}}</u></h1>
+            <h2><small>{{city}},{{state}}</small></h2>
+            <h4 class="todo">TODO: Maybe add more school information here? Would need to scrape it from the html</h4>
+            <h4 class="todo">TODO: data about the clubs/services available?</h4>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-md-offset-2 text-right">
             <img src="{{ college_pictures.url }}" class="img-responsive">
         </div>
     </div>
@@ -89,6 +92,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="col-md-5">
             <table class="tablesorter table table-condensed table-bordered">
                 <thead>
@@ -108,6 +112,8 @@
             </table>
         </div>
     </div>
+    <h4 class="todo">TODO: Is there more financial information we can add? Maybe database wide averages</h4>
+    <h4 class="todo">TODO: Page last modified -- this needs to also end up in the database</h4>
 </div>
 {% endblock content %}
 
