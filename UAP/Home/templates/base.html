@@ -8,7 +8,6 @@
         <title>{% block title %} Home {% endblock title %} | UAP </title>
         <link rel="stylesheet" href="{% static 'assets2/bootstrap/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'assets2/css/user.css' %}">
-
         <link rel="stylesheet" href="{% static 'assets/css/user.css' %}">
         <link rel="stylesheet" href="{% static 'assets/fonts/material-icons.css' %}">
         <link rel="stylesheet" href="{% static 'assets2/css/styles.css' %}">
@@ -17,19 +16,17 @@
     <body>
         {# Header #}
         <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header"><a class="navbar-brand navbar-link" href="{% url 'Home:home' %}"><span class="glyphicon glyphicon-education"></span> University Accountability Project</a>
-                    <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                </div>
-                <div class="collapse navbar-collapse" id="navcol-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- <li class="{% if nbar == 'home' %}active{% endif %}"><a href="{% url 'Home:home' %}">Home</a></li> -->
-                        <li class="{% if nbar == 'about' %}active{% endif %}"><a href="{% url 'Home:about' %}">About</a></li>
-                        <li class="{% if nbar == 'colleges' %}active{% endif %}"><a href="{% url 'Colleges:search' %}">Colleges</a></li>
-                        <li class="{% if nbar == 'blog_search' %}active{% endif %}"><a href="{% url 'Resources:search' %}">Resources</a></li>
-                        <li class="{% if nbar == 'contact' %}active{% endif %}"><a href="{% url 'Home:contact' %}">Contact Us</a></li>
-                    </ul>
-                </div>
+            <div class="navbar-header">
+                <a class="navbar-brand navbar-link" href="{% url 'Home:home' %}"><span class="glyphicon glyphicon-education"></span> University Accountability Project</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="{% if nbar == 'about' %}active{% endif %}"><a href="{% url 'Home:about' %}">About</a></li>
+                    <li class="{% if nbar == 'colleges' %}active{% endif %}"><a href="{% url 'Colleges:search' %}">Colleges</a></li>
+                    <li class="{% if nbar == 'blog_search' %}active{% endif %}"><a href="{% url 'Resources:search' %}">Resources</a></li>
+                    <li class="{% if nbar == 'contact' %}active{% endif %}"><a href="{% url 'Home:contact' %}">Contact Us</a></li>
+                </ul>
             </div>
         </nav>
         {# Document Body #}
