@@ -28,7 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'universityaccountabilityproject.org',
+    'ec2-52-40-252-230.us-west-2.compute.amazonaws.com',
+    '52.40.252.230',
+    'www.universityaccountabilityproject.org'
 ]
 
 
