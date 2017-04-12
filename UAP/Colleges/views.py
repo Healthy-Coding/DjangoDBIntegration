@@ -5,6 +5,10 @@ from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, 
 from .forms import SimpleSearchForm
 
 
+def flag_page(request, c_id):
+    return render(request, "Colleges/flag_page.html", {'flag': c_id})
+
+
 def search(request):
     if request.method == "POST":
         form = SimpleSearchForm(request.POST)
@@ -135,17 +139,18 @@ def college(request, c_id):
             university=page_name).values()[0]
         NCES = Scorecard.objects.filter(instnm=page_name).values()[0]
 
-        financial_dict = {}
+        financial_percent = {
+            "Pell Grant Recipients": "pctpell",
+            "Federal Loan Recipients": "pctfloan",
+            "4 Year Retention Rate": "ret_ft4",
+            "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
+            "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
+        }
 
         if NCES['control'] == 1:
-            financial_dict = {
+            financial_dollars = {
                 "Median Graduating Income": "md_earn_wne_p10",
                 "Median Graduating Debt": "grad_debt_mdn_supp",
-                "Percent Pell": "pctpell",
-                "Percent Federal Loan": "pctfloan",
-                "4 Year Retention": "ret_ft4",
-                "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
-                "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
                 "Average Net Price for $0-$30,000": "npt41_pub",
                 "Average Net Price for $30,001-$48,000": "npt42_pub",
                 "Average Net Price for $48,001-$75,000": "npt43_pub",
@@ -157,26 +162,34 @@ def college(request, c_id):
                           "npt43_pub": 0, "npt44_pub": 0, "npt45_pub": 0}
 
         if NCES['control'] == 2:
-            financial_dict = {
+            financial_dollars = {
                 "Median Graduating Income": "md_earn_wne_p10",
                 "Median Graduating Debt": "grad_debt_mdn_supp",
-                "Percent Pell": "pctpell",
-                "Percent Federal Loan": "pctfloan",
-                "4 Year Retention": "ret_ft4",
-                "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
-                "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
                 "Average Net Price for $0-$30,000": "npt41_priv",
                 "Average Net Price for $30,001-$48,000": "npt42_priv",
                 "Average Net Price for $48,001-$75,000": "npt43_priv",
                 "Average Net Price for $75,001-$110,000": "npt44_priv",
                 "Average Net Price for $110,001+": "npt45_priv"
             }
+            if False:
+                financial_percent = {
+                    "Pell Grant Recipients": "pctpell",
+                    "Federal Loan Recipients": "pctfloan",
+                    "4 Year Retention Rate": "ret_ft4",
+                    "Completion Within 1.0x-1.5x of Expected Time": "c150_4_pooled_supp",
+                    "Percent of Graduating Students Earning Over $25k": "gt_25k_p6",
+                }
             Quart_dict = {"npt41_priv": 0, "npt42_priv": 0,
                           "npt43_priv": 0, "npt44_priv": 0, "npt45_priv": 0}
 
-        financials = {}
-        for display, db_key in financial_dict.items():
-            financials[display] = NCES[db_key]
+
+        dollars = {}
+        for display, db_key in financial_dollars.items():
+            dollars[display] = int(NCES[db_key])
+
+        percent = {}
+        for display, db_key in financial_percent.items():
+            percent[display] = float(NCES[db_key][0:5])
 
     except IndexError:
         NCES = {}
@@ -245,20 +258,33 @@ def college(request, c_id):
         graph2 = mpld3.fig_to_html(fig2)
 
     google_graph = []
-    google_graph.append(['key', 'value'])
+    google_graph.append(['Demographics', 'College Data',
+                         'CollegeBoard', 'NCES', 'State Demographics'])
 
     for k, v in data.items():
-        google_graph.append([k, float(v[0])])
+        if v[1]==None:
+            v[1] = 0
+        if v[2]==None:
+            v[2] = 0
+        if v[3]=='N/A' or v[3]==None:
+            v[3] = 0
+        google_graph.append([k,
+                float(v[0])*.01, 
+                float(v[1]), 
+                float(v[2]),
+                float(v[3]) ])
 
-
+    #print"google_graph", google_graph
     return render(request, 'Colleges/detail.html',
-                  {'nbar': 'colleges',
+                  {'nbar': None,
                    'page_name': page_name,
                    'city': city,
                    'state': state,
                    'headers': headers,
                    'data': data,
-                   'financials': financials,
+                   'dollars': dollars,
+                   'percent': percent,
+                   'id': c_id,
                    'college_pictures': college_pictures,
                    'google_graph': google_graph})
                    #'graph': graph,

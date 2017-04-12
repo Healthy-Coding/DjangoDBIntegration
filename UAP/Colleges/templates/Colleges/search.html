@@ -6,45 +6,45 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 text-center">
+            <div class="col-md-10 col-md-offset-1 text-center">
                 <h1>College Database</h1>
             </div>
         </div>
-        <form method="POST" action="?page=1">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-md-6 col-md-offset-1">
-                     {{form.query}}
-                </div>
-                <div class="col-md-3">
-                    <label>Results per Page: </label>
-                    {{form.paginate_by}}
-                </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
-                </div>
+        <div class="row bottom-buffer top-buffer">
+            <div class="col-md-10 col-md-offset-1">
+                <form method="POST" action="?page=1">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                             {{form.query}}
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <label>Results per Page: </label>
+                            {{form.paginate_by}}
+
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
         </div>
         {% if results != None %}
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="list-group">
-                       {% for r in results %}
-                            <a href="{{ r.get_absolute_url }}" class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h4 class="list-group-item-heading">{{r.university}}</h4>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="list-group-item-text text-right">{{r.city}}, {{r.state.location}}</p>
-                                        <p class="list-group-item-text text-right"><small>Enrollment: {{r.enrollment_undergrad }}</small></p>
-                                    </div>
-                                </div>
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
+            <div class="list-group col-md-10 col-md-offset-1">
+               {% for r in results %}
+                    <a href="{{ r.get_absolute_url }}" class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="list-group-item-heading">{{r.university}}</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="list-group-item-text text-right">{{r.city}}, {{r.state.location}}</p>
+                                <p class="list-group-item-text text-right"><small>Enrollment: {{r.enrollment_undergrad }}</small></p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
             {% if pagination %}
                 <div class="row">

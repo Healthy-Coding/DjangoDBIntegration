@@ -21,6 +21,8 @@ def thanks(request):
     return render(request, 'thanks.html')
 
 
+
+
 def contact(request):
     # Template sends back post request -- bind form data to a new Contact model
     if request.method == 'POST':
