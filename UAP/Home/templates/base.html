@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-
 {% load static %}
 {% load markdown_deux_tags %}
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %} Home {% endblock title %} | UAP </title>
-        <!-- Bootstrap -->
+    {% block styles %}
         <link rel="stylesheet" href="{% static 'assets2/bootstrap/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/sticky-footer.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/user.css' %}">
@@ -17,6 +15,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/Carousel-Hero.css' %}">
         <link rel="stylesheet" href="{% static 'assets2/css/Footer-Dark.css' %}">
         <link rel="stylesheet" href="{% static 'assets2/css/styles.css' %}">
+    {% endblock %}
     </head>
     <body>
         {# Header #}
@@ -36,21 +35,18 @@
                 </div>
             </div>
         </nav>
-
         {# Document Body #}
         <div id="body">
             {% block content %}
                 Error displaying page
             {% endblock content %}
         </div>
-
         {# Footer #}
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">Place sticky footer content here.</p>
             </div>
         </footer>
-
     </body>
 
     {% block footer_javascript %}

@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.db.models import Q
-from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard
+from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard, Collegepictures
 from .forms import SimpleSearchForm
 
 
@@ -95,8 +95,18 @@ def uni_list(request):
         return render(request, "Colleges/search.html", context)
 
 
+def access_db(key, db):
+    try:
+        return db[key]
+    except KeyError:
+        return "*"
+
 
 def college(request, c_id):
+    db_keys = ['asian', 'white', 'black_african_american',
+               'native_hawaiian_pacific_islander', 'hispanic_latino',
+               'american_indian_alaskan_native', 'multi_race']
+
     keys = {
         "Asian": "asian",
         "White": "white",
@@ -108,10 +118,17 @@ def college(request, c_id):
     }
 
     college_data = UniversitydataCollegedata.objects.filter(id=c_id).values()[0]
-    page_name = college_data['university']
-    stated = college_data['state_id']
 
-    State_demos = Statedemographics.objects.filter(location=stated).values()[0]
+    page_name = college_data['university']
+    state = college_data['state_id']
+    city = college_data['city']
+
+    try:
+        college_pictures = Collegepictures.objects.filter(university_name=page_name).values()[0]
+    except IndexError:
+        college_pictures = "#"
+
+    State_demos = Statedemographics.objects.filter(location=state).values()[0]
     Quart_dict = {}
     try:
         college_board = Collegeboard.objects.filter(
@@ -162,17 +179,18 @@ def college(request, c_id):
             financials[display] = NCES[db_key]
 
     except IndexError:
+        NCES = {}
         financials = {}
         college_board = {}
 
-    headers = ["Metric", "College Data", "College Board",
-               "National Center for Education Statistics", "State Demographics"]
+    headers = ["Metric", "College Data", "College Board", "NCES", "State Demographics"]
     data = {}
+
     for display, db_key in keys.items():
-        data[display] = [college_data[db_key],
-                         college_board[db_key],
-                         NCES[db_key],
-                         State_demos[db_key]]
+        data[display] = [access_db(db_key, college_data),
+                         access_db(db_key, college_board),
+                         access_db(db_key, NCES),
+                         access_db(db_key, State_demos)]
 
     if False:
         # Do Graphs
@@ -236,9 +254,12 @@ def college(request, c_id):
     return render(request, 'Colleges/detail.html',
                   {'nbar': 'colleges',
                    'page_name': page_name,
+                   'city': city,
+                   'state': state,
                    'headers': headers,
                    'data': data,
                    'financials': financials,
+                   'college_pictures': college_pictures,
                    'google_graph': google_graph})
                    #'graph': graph,
                    #'Most': Most,

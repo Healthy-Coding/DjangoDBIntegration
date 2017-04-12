@@ -31,7 +31,7 @@ def contact(request):
             message = form.cleaned_data['message']
             email = form.cleaned_data['sender']
             c = Contact(subject=subject, content=message, sender=email, time_sent=datetime.utcnow())
-            # c.save()
+            #c.save()
             return HttpResponseRedirect('/thanks/')
 
     # Get request means view renders a blank form

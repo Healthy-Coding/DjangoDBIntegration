@@ -4,22 +4,69 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h1>College Search Test</h1>
+                <h1>College Database</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <form action="?page=1" method="POST">{% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="save btn btn-default">Send</button>
-                </form>
+        <form method="POST" action="?page=1">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-1">
+                     {{form.query}}
+                </div>
+                <div class="col-md-3">
+                    <label>Results per Page: </label>
+                    {{form.paginate_by}}
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
+                </div>
             </div>
+        </form>
         </div>
         {% if results != None %}
-            {% include 'Colleges/results.html' %}
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="list-group">
+                       {% for r in results %}
+                            <a href="{{ r.get_absolute_url }}" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="list-group-item-heading">{{r.university}}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="list-group-item-text text-right">{{r.city}}, {{r.state.location}}</p>
+                                        <p class="list-group-item-text text-right"><small>Enrollment: {{r.enrollment_undergrad }}</small></p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if pagination %}
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-1">
+                    {% if results.has_previous %}
+                        <form action="?page={{ results.previous_page_number }}" method="POST">
+                            {% csrf_token %}
+                            {{ form.paginate_by.as_hidden }}
+                            <button type="submit" class="btn btn-primary btn-xs">Previous</button>
+                        </form>
+                    {% endif %}
+                        <p>{{ results.number }} of {{ results.paginator.num_pages }}</p>
+                    {% if results.has_next %}
+                        <form action="?page={{ results.next_page_number }}" method="POST">
+                            {% csrf_token %}
+                            {{ form.paginate_by.as_hidden }}
+                            <button type="submit" class="btn btn-primary btn-xs">Next</button>
+                        </form>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

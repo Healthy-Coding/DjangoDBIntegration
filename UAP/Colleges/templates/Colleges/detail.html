@@ -4,68 +4,76 @@
 {% load static %}
 
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1">
+            <div class="row">
+                <h1><u>{{page_name}}</u><small>     {{city}},{{state}}</small></h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <img src="{{ college_pictures.url }}" class="img-responsive">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md col-md-offset-1">
+            <h4>Demographic Information</h4>
+        </div>
+    </div>
 
-<h1><strong>{{page_name}}</strong> </h1>
-
-<table id="diversity" class="tablesorter" style="width:100%">
-    <thead>
-    <tr>
-        {% for header in headers %}
-            <th>   {{  header }}:   </th>
-        {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
-    {% for key, values in data.items %}
-        <tr>
-            <td>  {{key}}  </td>
-            {% for value in values %}
-                <td> {{value}} </td>
-            {% endfor %}
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-<div class="col-md-6">
-    <h2>Financial Statistics</h2>
-    <table id="Financials" class="tablesorter" style="width:100%">
-        <thead>
-        <tr>
-           <th>   Summary   </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for key, values in financials.items %}
-            <tr>
-                <td>  {{key}}  </td>
-                {% for value in values %}
-                    <td> {{value}} </td>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <table id="diversity" class="tablesorter table table-condensed table-bordered">
+                <thead>
+                <tr>
+                    {% for header in headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, values in data.items %}
+                    <tr>
+                        <td>{{key}}</td>
+                        {% for value in values %}
+                            <td> {{value}} </td>
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div id="chart_div"></div>
-
-<div class="row" id="body_row">
-    <div class="col-md-16 col-sm-offset-0">
-        <h1>Key Highlights of {{page_name}} </h1>
-        <h3><strong> Relative Cost Per Income Bracket </strong> </h3>
-        {{graph|safe}}
-        <h3><strong> Median Graduating Income </strong> </h3>
-        {{graph2|safe}}
-
-        {% for value in Most.items %}
-        This univ {{value.instnm}}
-        {% endfor %}
+    <div class="row">
+        <div class="col-md col-md-offset-1">
+            <h4>Financial Information</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-1">
+            <table id="Financials" class="tablesorter table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Summary</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, value in financials.items %}
+                        <tr>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </table>
+        </div>
     </div>
 </div>
-</div>
 
-
-
+<div id="chart_div"></div>
 {% endblock content %}
 
 {% block footer_javascript_section %}
@@ -95,6 +103,14 @@
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(data, options);
   }
+</script>
+
+<script src="{% static 'assets/js/jquery.tablesorter.min.js' %}"></script>
+<script>
+    $(document).ready(function()
+        {
+            $("#diversity").tablesorter();
+        });
 </script>
 
 {% endblock footer_javascript_section %}
