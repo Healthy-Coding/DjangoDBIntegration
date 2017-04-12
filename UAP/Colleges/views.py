@@ -227,12 +227,23 @@ def college(request, c_id):
         graph2 = mpld3.fig_to_html(fig2)
 
     google_graph = []
-    google_graph.append(['key', 'value'])
+    google_graph.append(['Demographics', 'College Data', 'ColleBoard', 'NCES', 'State Demographics'])
 
     for k, v in data.items():
-        google_graph.append([k, float(v[0])])
+        if v[1]==None:
+            v[1] = 0
+        if v[2]==None:
+            v[2] = 0
+        if v[3]=='N/A' or v[3]==None:
+            v[3] = 0
+        print"v[3]", v[3]
+        google_graph.append([k, 
+                float(v[0])*.01, 
+                float(v[1]), 
+                float(v[2]),
+                float(v[3]) ])
 
-
+    print"google_graph", google_graph
     return render(request, 'Colleges/detail.html',
                   {'nbar': 'colleges',
                    'page_name': page_name,
