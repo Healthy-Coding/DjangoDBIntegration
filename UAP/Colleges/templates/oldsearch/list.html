@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Colleges {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<form id="college-list-filter" action="{% url 'Colleges:college_list' %}">
+  <input name="{{ form.query.html_name }}" value="{{ form.query.value }}">
+  <button type="submit" name="page" value="1"></button>
+</form>
+
+<div class="results">
+  {% include 'Colleges/list-results.html' %}
+</div>
+
+{% endblock %}
