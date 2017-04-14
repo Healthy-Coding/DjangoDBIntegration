@@ -73,6 +73,7 @@ class UniversitydataCollegedata(models.Model):
 
     class Meta:
         managed = False
+        verbose_name = "College Data"
         db_table = 'UniversityData_CollegeData'
 
 
