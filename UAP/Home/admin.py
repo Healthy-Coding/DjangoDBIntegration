@@ -1,8 +1,11 @@
 from django.contrib import admin
 from .models import Contact
-# Register your models here.
 
-admin.site.register(Contact)
 
+@admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'content')
+    list_display = ('timesent', 'subject', 'content', 'sender', 'resolved')
+    list_editable = ('resolved',)
+    date_hierarchy = 'timesent'
+    list_filter = ('resolved',)
+    ordering = ('timesent',)
