@@ -114,9 +114,12 @@
     </div>
     <h4 class="todo">TODO: Is there more financial information we can add? Maybe database wide averages</h4>
         <div id="box_plot"></div>
-
+        <div class="row">
+            <div id="piechart_3d" style="width: 500px; height: 500px;"></div>
+            <div id="hist_div"></div>
+        </div>
     <h4 class="todo">TODO: Page last modified -- this needs to also end up in the database</h4>
-        <div id="box_plot"></div>
+
 </div>
 {% endblock content %}
 
@@ -290,8 +293,53 @@
       chart.draw(data, options);
     }
 
-
-
 </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var djangoDataPell = {{ Pell_name_percentage|safe }};
+        var data = google.visualization.arrayToDataTable(
+            djangoDataPell, 
+            ['College Specific',  Pell],
+            );
+
+        var options = {
+          title: 'Distribution of Universities Socio-Economic Diversity (As measured by Percentage of Students that Received Pell Grants',
+          legend: { position: 'none' },
+          histogram: { bucketSize: 5 },
+          height: 500
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('hist_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var Pell = {{Pell_specific| safe}}
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Percent Pell',  Pell],
+          ['Percent Not-Pell',  1-Pell],
+        ]);
+
+        var options = {
+          title: 'Percent Pell (Students Whose Family Makes Under 40k)',
+          is3D: true,
+          colors: ['#04d804', '#d1d2d1']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
 
 {% endblock footer_javascript_section %}
