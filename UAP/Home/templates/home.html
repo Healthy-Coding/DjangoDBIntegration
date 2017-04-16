@@ -4,6 +4,8 @@
 {% load static %}
 
 {% block content %}
+<h1><center> We Hope to Increase Diversity, Inclusion, and Retention on College Campuses Nation Wide  </center></h1>
+<br> <h2><center> -Healthy Coding Team </center><h2>
     <div class="jumbotron hero">
         <div class="carousel slide" data-ride="carousel" id="carousel-1">
             <div class="carousel-inner" role="listbox">
@@ -27,5 +29,36 @@
             </ol>
         </div>
     </div>
+<div class="row">
+    <div class="col-md-3 col-md-offset-1">
+        <div class="w3-green w3-hover-shadow w3-center">
+        <a href="{% url 'Colleges:search' %}"><img src="{% static 'assets/img/College8.jpg' %}" alt="Image" width="400" height="250" ></a>
+        <div class="w3-container w3-center">
+        <p>Financial Accessibility</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="w3-green w3-hover-shadow w3-center">
+        <a href="{% url 'Colleges:search' %}"><img src="{% static 'assets/img/College9.jpg' %}" alt="Image" width="400" height="250" > </a>
+        <div class="w3-container w3-center">
+        <p>Diversity Accountability</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="w3-green w3-hover-shadow w3-center">
+        <a href="{% url 'Resources:search' %}"><img src="{% static 'assets/img/College10.jpg' %}" alt="Image" width="400" height="250" >
+        <div class="w3-container w3-center"> </a>
+        <p>Resources</p>
+      </div>
+    </div>
+    </div>
+
+</div>
     <div id="chart_div"></div>
+
 {% endblock content %}
+<br>
