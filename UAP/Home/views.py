@@ -20,7 +20,8 @@ def about(request):
 def thanks(request):
     return render(request, 'thanks.html')
 
-
+def citation(request):
+    return render(request, 'citation.html')
 
 
 def contact(request):
