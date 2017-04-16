@@ -261,6 +261,7 @@ def college(request, c_id):
     google_graph.append(['Demographics', 'College Data',
                          'CollegeBoard', 'NCES', 'State Demographics'])
 
+    #Demographic combo chart
     for k, v in data.items():
         if v[1]==None:
             v[1] = 0
@@ -269,12 +270,72 @@ def college(request, c_id):
         if v[3]=='N/A' or v[3]==None:
             v[3] = 0
         google_graph.append([k,
-                float(v[0])*.01, 
+                float(v[0]), 
                 float(v[1]), 
                 float(v[2]),
                 float(v[3]) ])
 
-    #print"google_graph", google_graph
+    #Get Info for Financial Boxplots
+    IncomeBracket = {}
+    IncomeBracketMin = {}
+    IncomeBracketMax = {}
+    IncomeBracketMedian = {}
+    IncomeBracketFirstQ = {}
+    IncomeBracketThirdQ = {}
+    incomebracketID = 0
+    for key, values in Quart_dict.items():  # key:value = npt41_priv:$$
+        QuartileNPTs = Scorecard.objects.values_list(key, flat=True) #All of the costs given a bracket
+        ListofCosts = []
+        incomebracketID += 1
+        for items in QuartileNPTs: 
+            if items not in 'NULL':
+                ListofCosts.append(float(items))
+        ListofCosts.sort()
+        IncomeBracket[incomebracketID] = ListofCosts
+        IncomeBracketMin[incomebracketID] = [ListofCosts[int(len(ListofCosts)*.01)]]
+        IncomeBracketMax[incomebracketID] = [ListofCosts[int(len(ListofCosts)*.98)]]
+        IncomeBracketMedian[incomebracketID] = [ListofCosts[len(ListofCosts)/2]]
+        IncomeBracketFirstQ[incomebracketID] = [ListofCosts[int(len(ListofCosts)*.25)]]
+        IncomeBracketThirdQ[incomebracketID] = [ListofCosts[int(len(ListofCosts)*.75)]]
+
+    print"IncomeBracketMin", IncomeBracketMin
+    print"IncomeBracketMax", IncomeBracketMax
+    print"IncomeBracketMedian", IncomeBracketMedian
+    print"IncomeBracketFirstQ", IncomeBracketFirstQ
+    print"IncomeBracketThirdQ", IncomeBracketThirdQ
+    ### Values for private school income brackets 4/14/2017 ###
+    # IncomeBracketMin {'npt43_priv': 598.0, 'npt42_priv': -643.0, 'npt45_priv': 609.0, 'npt44_priv': 180.0, 'npt41_priv': -5686.0}
+    # IncomeBracketMax {'npt43_priv': 90971.0, 'npt42_priv': 73163.0, 'npt45_priv': 91135.0, 'npt44_priv': 91135.0, 'npt41_priv': 88336.0}
+    # IncomeBracketMedian {'npt43_priv': 19680.0, 'npt42_priv': 17624.0, 'npt45_priv': 24172.0, 'npt44_priv': 22509.0, 'npt41_priv': 16662.0}
+    # IncomeBracketFirstQ {'npt43_priv': 15825.0, 'npt42_priv': 13372.0, 'npt45_priv': 19517.0, 'npt44_priv': 18406.0, 'npt41_priv': 12232.0}
+    # IncomeBracketThirdQ {'npt43_priv': 24356.0, 'npt42_priv': 22112.0, 'npt45_priv': 28877.0, 'npt44_priv': 26748.0, 'npt41_priv': 21004.0}
+
+    ### Values for Public school income brackets 4/14/2017 ###
+    # IncomeBracketMin {'npt42_pub': -1245.0, 'npt45_pub': 1133.0, 'npt43_pub': 229.0, 'npt41_pub': -2434.0, 'npt44_pub': -5538.0}
+    # IncomeBracketMax {'npt42_pub': 25724.0, 'npt45_pub': 31680.0, 'npt43_pub': 26453.0, 'npt41_pub': 24647.0, 'npt44_pub': 29745.0}
+    # IncomeBracketMedian {'npt42_pub': 8293.0, 'npt45_pub': 13590.0, 'npt43_pub': 10476.0, 'npt41_pub': 7526.0, 'npt44_pub': 12710.0}
+    # IncomeBracketFirstQ {'npt42_pub': 6188.0, 'npt45_pub': 11005.0, 'npt43_pub': 8165.0, 'npt41_pub': 5433.0, 'npt44_pub': 10014.0}
+    # IncomeBracketThirdQ {'npt42_pub': 11135.0, 'npt45_pub': 17778.0, 'npt43_pub': 13834.0, 'npt41_pub': 10092.0, 'npt44_pub': 16459.0}
+
+    IncomeListDict = {1: ["$0-$30,000"], 2: ["$30,001-$48,000"], 3:["$48,001-$75,000"], 4:["$75,001-$110,000"], 5: ["$110,000+"] }
+    for num in range(1,6):
+        IncomeListDict[num] += IncomeBracketMax[num] +IncomeBracketMin[num]+IncomeBracketFirstQ[num]+IncomeBracketMedian[num]+IncomeBracketThirdQ[num]
+    #print"Quarts", Quarts
+    IncomeList1 = IncomeListDict[1]
+    IncomeList2 = IncomeListDict[2]
+    IncomeList3 = IncomeListDict[3]
+    IncomeList4 = IncomeListDict[4]
+    IncomeList5 = IncomeListDict[5]
+    print"IncomeList1", IncomeList1
+
+    college_specs = []  # Get college specific values (The specific college at the website)
+    #count = 0
+    for key, values in Quart_dict.items(): #key:value = npt41_priv:$$
+        #count += 1 #count represent which income bracket 1 being lowest
+        college_specs.append(float(NCES[key])) #NCES is the object of the specific college of the given detail page
+    print"college_specs", college_specs
+
+    print"google_graph", google_graph
     return render(request, 'Colleges/detail.html',
                   {'nbar': None,
                    'page_name': page_name,
@@ -286,6 +347,12 @@ def college(request, c_id):
                    'percent': percent,
                    'id': c_id,
                    'college_pictures': college_pictures,
+                   'IncomeList1': IncomeList1,
+                   'IncomeList2': IncomeList2,
+                   'IncomeList3': IncomeList3,
+                   'IncomeList4': IncomeList4,
+                   'IncomeList5': IncomeList5,
+                   'college_specs':college_specs,
                    'google_graph': google_graph})
                    #'graph': graph,
                    #'Most': Most,

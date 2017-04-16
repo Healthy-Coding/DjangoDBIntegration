@@ -113,7 +113,10 @@
         </div>
     </div>
     <h4 class="todo">TODO: Is there more financial information we can add? Maybe database wide averages</h4>
+        <div id="box_plot"></div>
+
     <h4 class="todo">TODO: Page last modified -- this needs to also end up in the database</h4>
+        <div id="box_plot"></div>
 </div>
 {% endblock content %}
 
@@ -140,7 +143,8 @@
     var options = {
       title : 'Demographics by Source Compared to State',
       seriesType: 'bars',
-      series: {4: {type: 'line'}}
+      series: {4: {type: 'line'}},
+      height: 500
     };
 
     // Instantiate and draw our chart, passing in some options.
@@ -149,6 +153,8 @@
   }
 </script>
 
+
+
 <script src="{% static 'assets/js/jquery.tablesorter.min.js' %}"></script>
 <script>
     $(document).ready(function()
@@ -156,6 +162,136 @@
             $("#diversity").tablesorter();
             $("#dollars").tablesorter();
         });
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+      google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawBoxPlot);
+
+    function drawBoxPlot() {
+
+      var array = [
+        {{ IncomeList1|safe }},
+        {{ IncomeList2|safe }},
+        {{ IncomeList3|safe }},
+        {{ IncomeList4|safe }},
+        {{ IncomeList5|safe }},
+      ];
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'x');
+      data.addColumn('number', 'Income Bracket1');
+      data.addColumn('number', 'Income Bracket2');
+      data.addColumn('number', 'Income Bracket3');
+      data.addColumn('number', 'Income Bracket4');
+      data.addColumn('number', 'Income Bracket5');
+
+      data.addColumn({id:'max', type:'number', role:'interval'});
+      data.addColumn({id:'min', type:'number', role:'interval'});
+      data.addColumn({id:'firstQuartile', type:'number', role:'interval'});
+      data.addColumn({id:'median', type:'number', role:'interval'});
+      data.addColumn({id:'thirdQuartile', type:'number', role:'interval'});
+      data.addColumn({id:'specific', type:'number', role:'interval'});
+
+      data.addRows(getBoxPlotValues(array));
+
+      /**
+       * Takes an array of input data and returns an
+       * array of the input data with the box plot
+       * interval data appended to each row.
+       */
+      function getBoxPlotValues(array) {
+
+        for (var i = 0; i < array.length; i++) {
+
+          var arr = array[i].slice(1).sort(function (a, b) {
+            return a - b;
+          });
+
+          var max = arr[arr.length - 1];
+          var min = arr[0];
+          var median = arr[3];
+
+          // First Quartile is the median from lowest to overall median.
+          var firstQuartile = getMedian(arr.slice(0, median));
+
+          // Third Quartile is the median from the overall median to the highest.
+          var thirdQuartile = getMedian(arr.slice(3));
+          var college_specific = {{ college_specs|safe }};
+          array[i][6] = max;
+          array[i][7] = min
+          array[i][8] = firstQuartile;
+          array[i][9] = median;
+          array[i][10] = thirdQuartile;
+          array[i][11] = college_specific[i];
+        }
+        return array;
+      }
+
+      /*
+       * Takes an array and returns
+       * the median value.
+       */
+      function getMedian(array) {
+        var length = array.length;
+
+        /* If the array is an even length the
+         * median is the average of the two
+         * middle-most values. Otherwise the
+         * median is the middle-most value.
+         */
+        if (length % 2 === 0) {
+          var midUpper = length / 2;
+          var midLower = midUpper - 1;
+
+          return (array[midUpper] + array[midLower]) / 2;
+        } else {
+          return array[Math.floor(length / 2)];
+        }
+      }
+
+      var options = {
+          title:'Relative Cost Per Income Bracket',
+          height: 500,
+          hAxis: {
+            gridlines: {color: '#fff'}
+          },
+          lineWidth: 0,
+          series: [{'color': '#D3362D'}],
+          intervals: {
+            barWidth: 1,
+            boxWidth: 1,
+            lineWidth: 2,
+            style: 'boxes'
+          },
+          interval: {
+            max: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#777'
+            },
+            min: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#777'
+            },
+              specific: {
+              style: 'points',
+              fillOpacity: 1,
+              color: '#FF0000'
+            },
+          }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('box_plot'));
+
+      chart.draw(data, options);
+    }
+
+
+
 </script>
 
 {% endblock footer_javascript_section %}
