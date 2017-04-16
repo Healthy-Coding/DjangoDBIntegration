@@ -302,10 +302,7 @@
       function drawChart() {
 
         var djangoDataPell = {{ Pell_name_percentage|safe }};
-        var data = google.visualization.arrayToDataTable(
-            djangoDataPell, 
-            ['College Specific',  Pell],
-            );
+        var data = google.visualization.arrayToDataTable(djangoDataPell);
 
         var options = {
           title: 'Distribution of Universities Socio-Economic Diversity (As measured by Percentage of Students that Received Pell Grants',
