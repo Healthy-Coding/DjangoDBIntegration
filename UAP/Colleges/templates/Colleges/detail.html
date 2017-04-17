@@ -29,7 +29,8 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <hr style="border-top: 1px solid #8c8b8b;">
-            <h4>Demographic Information</h4>
+            <h4>Demographic Information:</h4><br>
+            <p>In this section we compare diversity metrics among 4 different sources. We compare College Data, College Board, and National Center for Education Statistics against US Census state demographic data.</p>
             <hr style="border-top: 1px solid #8c8b8b;">
         </div>
     </div>
@@ -68,7 +69,8 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <hr style="border-top: 1px solid #8c8b8b;">
-            <h4>Financial Information</h4>
+            <h4>Financial Information:</h4> <br>
+            <p>In this section we pulled financial and socio-economic diversity information from the National Center for Education Statistics. The boxplot displays distributions of college cost per income bracket, and compares this page's specific college to those distributions. </p>
             <hr style="border-top: 1px solid #8c8b8b;">
         </div>
     </div>
@@ -113,11 +115,14 @@
         </div>
     </div>
     <h4 class="todo">TODO: Is there more financial information we can add? Maybe database wide averages</h4>
+    <br>
         <div id="box_plot"></div>
-        <div class="row">
-            <div id="piechart_3d" style="width: 500px; height: 500px;"></div>
+        <div class="col-md-10 col-md-offset-1">
+        <div class="row"> 
+            <div id="piechart_3d" ></div> <p>Percent of student population that receives pell grants is an indicator of socio-economic diversity. Receipients of Pell grants must come from families whose income is less than $40,000. The histogram below displays the distribution of all colleges and their percent population that receives Pell grants in order to give a sense of where you school lies in the distribution. </p>
             <div id="hist_div"></div>
-        </div>
+        </div> 
+    </div>
     <h4 class="todo">TODO: Page last modified -- this needs to also end up in the database</h4>
 
 </div>
@@ -258,6 +263,8 @@
       var options = {
           title:'Relative Cost Per Income Bracket',
           height: 500,
+          width: 900,
+          legend: 'none',
           hAxis: {
             gridlines: {color: '#fff'}
           },
@@ -305,10 +312,10 @@
         var data = google.visualization.arrayToDataTable(djangoDataPell);
 
         var options = {
-          title: 'Distribution of Universities Socio-Economic Diversity (As measured by Percentage of Students that Received Pell Grants',
+          title: 'All Universities Distribution of Socio-Economic Diversity (As measured by Percentage of Students that Received Pell Grants',
           legend: { position: 'none' },
           histogram: { bucketSize: 5 },
-          height: 500
+          height: 500,
         };
 
         var chart = new google.visualization.Histogram(document.getElementById('hist_div'));
@@ -327,12 +334,16 @@
           ['Percent Pell',  Pell],
           ['Percent Not-Pell',  1-Pell],
         ]);
-
+        var pell_spec = {{ Pell_specific| safe }}
         var options = {
           title: 'Percent Pell (Students Whose Family Makes Under 40k)',
           is3D: true,
-          colors: ['#04d804', '#d1d2d1']
+          colors: ['#04d804', '#d1d2d1'],
+          hAxis: {
+      ticks: [pell_spec]
+    },
         };
+
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
