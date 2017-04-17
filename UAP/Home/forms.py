@@ -6,5 +6,6 @@ class ContactForm(forms.Form):
                                                                             'placeholder': 'Enter Subject'}))
     message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': 'Enter Message'}))
-    sender = forms.EmailField(required=False, widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                            'placeholder': 'Enter Email'}))
+    sender = forms.EmailField(label="Sender (Optional):", required=False,
+                              widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'placeholder': 'Enter Email'}))

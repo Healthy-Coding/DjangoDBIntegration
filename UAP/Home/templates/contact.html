@@ -4,20 +4,20 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12 text-center">
-            <h1>Contact us!</h1>
+        <div class="text-center">
+            <h1>Contact Us!</h1>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <form method="POST" class="contact-form">{% csrf_token %}
+        <div class="col-md-8 col-md-offset-2">
+            <form method="POST" class="contact-form">
+                {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="save btn btn-default">Send</button>
             </form>
         </div>
-
     </div>
 </div>
 

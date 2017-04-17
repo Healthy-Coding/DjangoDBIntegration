@@ -3,9 +3,19 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard, Collegepictures
 from .forms import SimpleSearchForm
+#from datetime import datetime
+#from UAP.Home.models import Contact
 
 
 def flag_page(request, c_id):
+    college = UniversitydataCollegedata.objects.filter(id=c_id)[0]
+
+    subject = "%s FLAGGED" % c_id
+    message = "auto generated message for %s" % college.university
+
+    # = Contact(subject=subject, content=message, timesent=datetime.utcnow())
+    #c.save()
+
     return render(request, "Colleges/flag_page.html", {'flag': c_id})
 
 
