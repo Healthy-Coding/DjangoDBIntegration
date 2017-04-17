@@ -287,7 +287,7 @@ def college(request, c_id):
     IncomeList3 = IncomeListDict[3]
     IncomeList4 = IncomeListDict[4]
     IncomeList5 = IncomeListDict[5]
-    print"IncomeList1", IncomeList1
+    #print"IncomeList1", IncomeList1
 
     college_specs = []  # Get college specific values (The specific college at the website)
     #count = 0

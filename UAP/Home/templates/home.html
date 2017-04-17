@@ -3,9 +3,16 @@
 
 {% load static %}
 
+
 {% block content %}
-<h1><center> We Hope to Increase Diversity, Inclusion, and Retention on College Campuses Nation Wide  </center></h1>
-<br> <h2><center> -Healthy Coding Team </center><h2>
+<div class="row">
+    <div class="col-md-6 col-md-offset-5 text-right">
+        <h1>
+            <em>Our Goal to Increase Diversity, Inclusion, and Retention on College Campuses Nation Wide</em>
+            <small>Healthy Coding Team</small>
+        </h1>
+    </div>
+</div>
     <div class="jumbotron hero">
         <div class="carousel slide" data-ride="carousel" id="carousel-1">
             <div class="carousel-inner" role="listbox">
@@ -29,36 +36,46 @@
             </ol>
         </div>
     </div>
+
 <div class="row">
-    <div class="col-md-3 col-md-offset-1">
-        <div class="w3-green w3-hover-shadow w3-center">
-        <a href="{% url 'Colleges:search' %}"><img src="{% static 'assets/img/College8.jpg' %}" alt="Image" width="400" height="250" ></a>
-        <div class="w3-container w3-center">
-        <p>Financial Accessibility</p>
-      </div>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-4">
+            <a href="{% url 'Colleges:search' %}">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <img src="{% static 'assets/img/College8.jpg' %}" class="center-block" height="210px">
+                    </div>
+                    <div class="panel-heading text-center">
+                        <h4>Financial Accessibility</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'Colleges:search' %}">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <img src="{% static 'assets/img/College9.jpg' %}" class="center-block" height="210px">
+                    </div>
+                    <div class="panel-heading text-center">
+                        <h4>Diversity Accountability</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'Resources:search' %}">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <img src="{% static 'assets/img/College10.jpg' %}" class="center-block" height="210px">
+                    </div>
+                    <div class="panel-heading text-center">
+                        <h4>Resources</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="w3-green w3-hover-shadow w3-center">
-        <a href="{% url 'Colleges:search' %}"><img src="{% static 'assets/img/College9.jpg' %}" alt="Image" width="400" height="250" > </a>
-        <div class="w3-container w3-center">
-        <p>Diversity Accountability</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="w3-green w3-hover-shadow w3-center">
-        <a href="{% url 'Resources:search' %}"><img src="{% static 'assets/img/College10.jpg' %}" alt="Image" width="400" height="250" >
-        <div class="w3-container w3-center"> </a>
-        <p>Resources</p>
-      </div>
-    </div>
-    </div>
-
 </div>
-    <div id="chart_div"></div>
 
 {% endblock content %}
-<br>
