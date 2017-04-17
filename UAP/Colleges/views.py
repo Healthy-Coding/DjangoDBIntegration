@@ -26,12 +26,24 @@ def search(request):
             queryset_list = UniversitydataCollegedata.objects.all()
 
             query = form.cleaned_data['query']
+            size = form.cleaned_data['college_size']
             paginate_by = int(form.cleaned_data['paginate_by'])
+
 
             if query != "":
                  queryset_list = queryset_list.filter(
                      Q(university__icontains=query)
                  ).distinct()
+
+            if size != "-1":
+                print(size)
+                x = size[1:-1].split(',')
+                min_size = int(x[0])
+                max_size = int(x[1])
+
+                queryset_list = queryset_list.filter(
+                    Q(enrollment_undergrad__gte=min_size, enrollment_undergrad__lte=max_size)
+                ).distinct()
 
             if queryset_list.count() > paginate_by:
                 page = request.GET.get("page")
@@ -117,9 +129,9 @@ def access_db(key, db):
 
 
 def college(request, c_id):
-    db_keys = ['asian', 'white', 'black_african_american',
-               'native_hawaiian_pacific_islander', 'hispanic_latino',
-               'american_indian_alaskan_native', 'multi_race']
+    #db_keys = ['asian', 'white', 'black_african_american',
+    #           'native_hawaiian_pacific_islander', 'hispanic_latino',
+    #           'american_indian_alaskan_native', 'multi_race']
 
     keys = {
         "Asian": "asian",
@@ -136,6 +148,9 @@ def college(request, c_id):
     page_name = college_data['university']
     state = college_data['state_id']
     city = college_data['city']
+
+    #TODO: Access Website here -- currently links to google
+    website = "www.google.com"
 
     try:
         college_pictures = Collegepictures.objects.filter(university_name=page_name).values()[0]
@@ -315,6 +330,7 @@ def college(request, c_id):
                    'data': data,
                    'dollars': dollars,
                    'percent': percent,
+                   'website': website,
                    'id': c_id,
                    'college_pictures': college_pictures,
                    'IncomeList1': IncomeList1,

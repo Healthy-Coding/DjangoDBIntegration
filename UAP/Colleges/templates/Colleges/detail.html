@@ -15,10 +15,8 @@
     <!-- College name and picture -->
     <div class="row">
         <div class="col-md-5 col-md-offset-1">
-            <h1><u>{{page_name}}</u></h1>
-            <h2><small>{{city}},{{state}}</small></h2>
-            <h4 class="todo">TODO: Maybe add more school information here? Would need to scrape it from the html</h4>
-            <h4 class="todo">TODO: data about the clubs/services available?</h4>
+            <h1><strong><u>{{page_name}}</u></strong></h1>
+            <h4><a href="https://www.google.com" target="_blank">{{website}}</a><br>{{city}},{{state}}</h4>
         </div>
         <div class="col-md-3 col-md-offset-2 text-right">
             <img src="{{ college_pictures.url }}" class="img-responsive">
@@ -29,7 +27,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <hr style="border-top: 1px solid #8c8b8b;">
-            <h4>Demographic Information:</h4><br>
+            <h4><strong>Demographic Information</strong></h4>
             <p>In this section we compare diversity metrics among 4 different sources. We compare College Data, College Board, and National Center for Education Statistics against US Census state demographic data.</p>
             <hr style="border-top: 1px solid #8c8b8b;">
         </div>
@@ -69,7 +67,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <hr style="border-top: 1px solid #8c8b8b;">
-            <h4>Financial Information:</h4> <br>
+            <h4><strong>Financial Information</strong></h4>
             <p>In this section we pulled financial and socio-economic diversity information from the National Center for Education Statistics. The boxplot displays distributions of college cost per income bracket, and compares this page's specific college to those distributions. </p>
             <hr style="border-top: 1px solid #8c8b8b;">
         </div>
@@ -96,6 +94,15 @@
         </div>
 
         <div class="col-md-5">
+            <div id="box_plot" style="width:100%; min-height:350px"></div>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-5 col-md-offset-1">
+            <p class="text-justify">Percent of student population that receives pell grants is an indicator of socio-economic diversity. Receipients of Pell grants must come from families whose income is less than $40,000. The histogram below displays the distribution of all colleges and their percent population that receives Pell grants in order to give a sense of where you school lies in the distribution. </p>
+            <div id="piechart_3d" ></div>
+        </div>
+        <div class="col-md-5">
             <table class="tablesorter table table-condensed table-bordered">
                 <thead>
                     <tr>
@@ -114,16 +121,15 @@
             </table>
         </div>
     </div>
-    <h4 class="todo">TODO: Is there more financial information we can add? Maybe database wide averages</h4>
-    <br>
-        <div id="box_plot"></div>
-        <div class="col-md-10 col-md-offset-1">
-        <div class="row"> 
-            <div id="piechart_3d" ></div> <p>Percent of student population that receives pell grants is an indicator of socio-economic diversity. Receipients of Pell grants must come from families whose income is less than $40,000. The histogram below displays the distribution of all colleges and their percent population that receives Pell grants in order to give a sense of where you school lies in the distribution. </p>
-            <div id="hist_div"></div>
-        </div> 
+    <div class="row">
+        <div id="hist_div"></div>
     </div>
-    <h4 class="todo">TODO: Page last modified -- this needs to also end up in the database</h4>
+
+    <div class="row">
+        <div class="col-md-11 text-right">
+            <p><strong>Data Last Updated:</strong> 11 March 2017</p>
+        </div>
+    </div>
 
 </div>
 {% endblock content %}
@@ -262,9 +268,8 @@
 
       var options = {
           title:'Relative Cost Per Income Bracket',
-          height: 500,
-          width: 900,
           legend: 'none',
+         'chartArea': {'width': '80%', 'height': '80%'},
           hAxis: {
             gridlines: {color: '#fff'}
           },
@@ -323,7 +328,7 @@
       }
     </script>
 
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
