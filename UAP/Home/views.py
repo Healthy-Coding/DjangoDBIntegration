@@ -3,14 +3,22 @@ from django.http import HttpResponseRedirect
 from .forms import ContactForm
 from .models import Contact
 from datetime import datetime
-
+import random
 
 def handler404(request):
     return render(request, '404.html', status=400)
 
 
 def home(request):
-    return render(request, 'home.html', {'nbar': 'home'})
+    startURL = "/static/assets/img/" 
+    Pics = ["bowen-quad.jpg", "Brown.jpg", "College1.jpg","College2.jpg","College3.jpg","College4.jpg","College5.jpg","College6.jpg","College7.jpg","Penn.jpg"]
+    selectedPics = []
+    while len(selectedPics) < 4:
+        pic = random.choice(Pics)
+        if startURL+pic not in selectedPics:
+            selectedPics.append(startURL+pic)
+    print selectedPics
+    return render(request, 'home.html', {'nbar': 'home', 'selectedPics':selectedPics})
 
 
 def about(request):
