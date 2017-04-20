@@ -7,57 +7,57 @@
     </div>
     <div class="row bottom-buffer top-buffer">
         <div class="col-md-5 col-md-offset-1">
-            <h3>College Board</h3>
-            <p> The College Board is a mission-driven non-for-profit organization dedicated to connecting students with Universities.  Many students use College Boards' services such as the SAT, a standardized college readiness test, and the Advanced Placement Program, which allows students to take college level classes while still in high school.  For the Univeristy Accountability Project we scraped College Boards data on University demographics as well as club and student organization information.
+            <h3><a href="http://www.collegeboard.org">College Board</a></h3>
+            <p>The College Board is a mission-driven non-for-profit organization dedicated to connecting students with Universities.  Many students use College Boards' services such as the SAT, a standardized college readiness test, and the Advanced Placement Program, which allows students to take college level classes while still in high school.  For the Univeristy Accountability Project we scraped College Board's data on University demographics as well as club and student organization information.
                 <br>
-                <br> The table created from College Board data contains 2240 entries. The fields hold the demographic percentages for White, Hispanic-Latino, Black, Multi Race, Asian, Unknown, Nonresident Alien, and American Indian or Alaskan Native, and Native Hawaiian or Pacific Islander. The data reflects their 2016 statistics. The table also holds the University name, State, and City for identification purposes.</p>
+                <br>The table created from College Board data contains 2240 entries. The fields hold the demographic percentages for White, Hispanic-Latino, Black, Multi Race, Asian, Unknown, Nonresident Alien, and American Indian or Alaskan Native, and Native Hawaiian or Pacific Islander. The data reflects their 2016 statistics. The table also holds the University name, State, and City for identification purposes.</p>
         </div>
         <div class="col-md-5">
-            <img src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" class="img-responsive">
+            <img src="{% static 'assets/img/CollegeBoard.png' %}" class="citaiton">
         </div>
     </div>
     <div class="row bottom-buffer top-buffer">
         <div class="col-md-5 col-md-offset-1">
-            <h3>College Data</h3>
-            <p> College Data is a service provided by 1st Fidelity Bank to help students make wise college decisions.  College Data provides demographics, size, and cost information among many other statistics.  For the Univeristy Accountability Project we scraped College Boards data on University demographics.
+            <h3><a href="http://www.collegedata.com">College Data</a></h3>
+            <p>College Data is a service provided by 1st Fidelity Bank to help students make wise college decisions.  College Data provides demographics, size, and cost information among many other statistics.  For the Univeristy Accountability Project we scraped College Data's data on University demographics.
                 <br>
-                <br> The table created for College Data contain 1263 entries. The data includes the enrollment number, and all colleges from the initial scraped data with enrollment under 1000 persons have been dropped. The fields hold the demographic percentages for Male, Female, White, Hispanic-Latino, Black, Multi Race, Asian, Unknown, International, and American Indian or Alaskan Native, and Native Hawaiian or Pacific Islander. The table also holds the University name, State, and City for identification purposes.</p>
+                <br>The table created for College Data contain 1263 entries. The data includes the enrollment number, and all colleges from the initial scraped data with enrollment under 1000 persons have been dropped. The fields hold the demographic percentages for Male, Female, White, Hispanic-Latino, Black, Multi Race, Asian, Unknown, International, and American Indian or Alaskan Native, and Native Hawaiian or Pacific Islander. The table also holds the University name, State, and City for identification purposes.</p>
         </div>
         <div class="col-md-5">
-            <img src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" class="img-responsive">
+            <img src="{% static 'assets/img/CollegeData.png' %}" class="citation">
         </div>
     </div>
     <div class="row bottom-buffer top-buffer">
         <div class="col-md-5 col-md-offset-1">
-            <h3>National Center for Education Statistics (NCES)</h3>
-            <p> The National Center for Education Statistics (NCES) is the part of the United States Department of Education's Institute of Education Sciences which publishes eductation and statistics 
+            <h3><a href="https://nces.ed.gov">National Center for Education Statistics (NCES)</a></h3>
+            <p>The National Center for Education Statistics (NCES) is the part of the United States Department of Education's Institute of Education Sciences which publishes eductation and statistics. For the University Accountability Project we downloaded economic statistics from the College Scorecard.
+                <br>
+                <br>The scorecard table holds 7703 entries. In addition to demographic statistics, we are using economic data: average graduating income, average graduating debt, average net price of attendance, Pell grant recipients, federal loan recipients, four year retention rates, rate of completion within 1-1.5 time of, percent earning over 25k.</p>
+        </div>
+        <div class="col-md-5">
+            <img src="{% static 'assets/img/CollegeScorecard.png' %}" class="citation">
+        </div>
+    </div>
+    <div class="row bottom-buffer top-buffer">
+        <div class="col-md-5 col-md-offset-1">
+            <h3><a href="https://www.bing.com/images/search?sp=-1&pq=emory+university+quadrangle&sc=0-26&sk=&cvid=1485D40813CB493EB8C2F50F58BCE3B3&q=emory+university+quadrangle&qft=+filterui:imagesize-wallpaper&FORM=R5IR4">Bing</a></h3>
+            <p>In order to allow users to also get a view of the college who's demographics and financial information they are viewing we scraped images off of Bing.  We scraped the first large picture for each univeristy.
+                <br>
+                <br>The table CollegePictures holds pictures scraped to match the CollegeBoard University name list. There are 2240 entries. 2193 colleges from the CollegeBoard table and the full 1263 from CollegeData have their corresponding image within the CollegePictures table.</p>
+        </div>
+        <div class="col-md-5">
+            <img src="{% static 'assets/img/Bing.jpg' %}" class="citation">
+        </div>
+    </div>
+    <div class="row bottom-buffer top-buffer">
+        <div class="col-md-5 col-md-offset-1">
+            <h3><a href="https://www.census.gov">Census</a></h3>
+            <p>To maintain a state baseline for the Univeristy Accountability Project we downloaded state demographics information from the census.
                 <br>
                 <br> The State Demographics table holds the percentages for the demographic categories White, Black, Asian, American Indian and Alaskan Native, Native Hawaiian and Pacific Islander, and Multi Race, for the fifty states, D.C. and the national average. The data was obtained from the Henry J. Kaiser Family Foundation’s statistics which are compiled from the United States Census Bureau’s March 2016 Current Population Survey.</p>
         </div>
         <div class="col-md-5">
-            <img src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" class="img-responsive">
-        </div>
-    </div>
-    <div class="row bottom-buffer top-buffer">
-        <div class="col-md-5 col-md-offset-1">
-            <h3>Bing</h3>
-            <p> In order to allow users to also get a view of the college who's demographics and financial information they are viewing we scraped images off of Bing.  We scraped the first large for each univeristy.
-                <br>
-                <br> The table CollegePictures holds pictures scraped to match the CollegeBoard University name list. There are 2240 entries. 2193 colleges from the CollegeBoard table and the full 1263 from CollegeData have their corresponding image within the CollegePictures table.</p>
-        </div>
-        <div class="col-md-5">
-            <img src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" class="img-responsive">
-        </div>
-    </div>
-    <div class="row bottom-buffer top-buffer">
-        <div class="col-md-5 col-md-offset-1">
-            <h3>College Scorecard</h3>
-            <p> 
-                <br>
-                <br> The scorecard table holds 7703 entries. In addition to demographic statistics, we are using economic data: average graduating income, average graduating debt, average net price of attendance, Pell grant recipients, federal loan recipients, four year retention rates, rate of completion within 1-1.5 time of, percent earning over 25k.</p>
-        </div>
-        <div class="col-md-5">
-            <img src="http://philosophy.emory.edu/home/images/hero/bowen-quad.jpg" class="img-responsive">
+            <img src="{% static 'assets/img/Census.png' %}" class="citation">
         </div>
     </div>
 </div>
