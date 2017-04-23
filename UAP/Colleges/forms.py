@@ -18,5 +18,5 @@ COLLEGE_SIZE = (
 class SimpleSearchForm(forms.Form):
     query = forms.CharField(required=False, widget=forms.TextInput(attrs={
                             'class': 'form-control', 'placeholder': 'Search for Colleges'}))
-    paginate_by = forms.ChoiceField(choices=PAGINATE, widget=forms.Select(attrs={'class': 'dropdown-item'}))
-    college_size = forms.ChoiceField(choices=COLLEGE_SIZE)
+    paginate_by = forms.ChoiceField(choices=PAGINATE, widget=forms.Select(attrs={'class': 'form-control'}))
+    college_size = forms.ChoiceField(choices=COLLEGE_SIZE, widget=forms.Select(attrs={'class': 'form-control'}))

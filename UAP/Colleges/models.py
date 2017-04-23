@@ -23,6 +23,8 @@ class Collegeboard(models.Model):
     non_resident_alien = models.DecimalField(db_column='Non_Resident_Alien', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     american_indian_alaskan_native = models.DecimalField(db_column='American_Indian_Alaskan_Native', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     native_hawaiian_pacific_islander = models.DecimalField(db_column='Native_Hawaiian_Pacific_Islander', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    services = models.TextField(blank=True, null=True)
+    website = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
         managed = False
