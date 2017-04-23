@@ -6,12 +6,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %} Home {% endblock title %} | UAP </title>
+
+        <!-- Load Bootstrap -->
         <link rel="stylesheet" href="{% static 'assets2/bootstrap/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets2/css/user.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/user.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/About.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/fonts/material-icons.css' %}">
-        {% block extra_styles %}{% endblock %}
+
+        <!-- Load Sticky Footer Stylesheet -->
+        <link rel="stylesheet" href="{% static 'assets2/css/base.css' %}">
+
+        <!-- Template Specific Stylesheet-->
+        {% block template_style %}{% endblock %}
     </head>
     <body>
         {# Header #}
@@ -30,7 +33,7 @@
             </div>
         </nav>
         {# Document Body #}
-        <div id="body">
+        <div id="content">
             {% block content %}
                 Error displaying page
             {% endblock content %}

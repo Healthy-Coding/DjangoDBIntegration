@@ -5,14 +5,16 @@
 
 
 {% block content %}
+<!-- Site Title -->
 <div class="row">
-    <div class="col-md-6 col-md-offset-5 text-right">
-        <h1>
-            <em>Our Goal to Increase Diversity, Inclusion, and Retention on College Campuses Nation Wide</em>
-            <small>Healthy Coding Team</small>
-        </h1>
+    <div class="col-md-10 col-md-offset-1">
+        <blockquote style="border-right: none;" class="blockquote-reverse">
+            <h1><em>Our Goal is to Increase Diversity, Inclusion, and Retention on College Campuses Nation Wide</em></h1>
+            <footer style="font-size: 24px;">Healthy Coding Team</footer>
+        </blockquote>
     </div>
 </div>
+
     <div class="jumbotron hero">
         <div class="carousel slide" data-ride="carousel" id="carousel-1">
             <div class="carousel-inner" role="listbox">
@@ -37,13 +39,20 @@
         </div>
     </div>
 
+<!-- Panel images to each part of the website -->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <p>This is where a description of the following panels will go</p>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <div class="col-md-4">
             <a href="{% url 'Colleges:search' %}">
                 <div class="panel panel-primary">
                     <div class="panel-body">
-                        <img src="{% static 'assets/img/College8.jpg' %}" class="center-block" height="210px">
+                        <img src="{% static 'assets/img/College8.jpg' %}" class="center-block img-responsive">
                     </div>
                     <div class="panel-heading text-center">
                         <h4>Financial Accessibility</h4>
@@ -55,7 +64,7 @@
             <a href="{% url 'Colleges:search' %}">
                 <div class="panel panel-primary">
                     <div class="panel-body">
-                        <img src="{% static 'assets/img/College9.jpg' %}" class="center-block" height="210px">
+                        <img src="{% static 'assets/img/College9.jpg' %}" class="center-block img-responsive">
                     </div>
                     <div class="panel-heading text-center">
                         <h4>Diversity Accountability</h4>
@@ -67,7 +76,7 @@
             <a href="{% url 'Resources:search' %}">
                 <div class="panel panel-primary">
                     <div class="panel-body">
-                        <img src="{% static 'assets/img/College10.jpg' %}" class="center-block" height="210px">
+                        <img src="{% static 'assets/img/College10.jpg' %}" class="center-block img-responsive">
                     </div>
                     <div class="panel-heading text-center">
                         <h4>Resources</h4>
@@ -77,5 +86,4 @@
         </div>
     </div>
 </div>
-
 {% endblock content %}
