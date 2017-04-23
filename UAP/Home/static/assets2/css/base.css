@@ -1,0 +1,25 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+#content {
+  /* Margin bottom by footer height */
+  margin-bottom: 40px;
+}
+#footer {
+    display: inline-block;
+    color:#f0f9ff;
+    background-color:#282d32;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    text-align: center;
+    vertical-align: center;
+}
+
+#footer span {
+    display: inline-block;
+    vertical-align: middle;
+}
