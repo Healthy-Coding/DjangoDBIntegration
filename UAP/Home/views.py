@@ -28,6 +28,7 @@ def about(request):
 def thanks(request):
     return render(request, 'thanks.html')
 
+
 def citation(request):
     return render(request, 'citation.html')
 
@@ -37,7 +38,6 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # TODO: Contact object needs to exist in the database
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
             email = form.cleaned_data['sender']
