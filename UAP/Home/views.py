@@ -17,7 +17,7 @@ def home(request):
         pic = random.choice(Pics)
         if startURL+pic not in selectedPics:
             selectedPics.append(startURL+pic)
-    print selectedPics
+    #print selectedPics
     return render(request, 'home.html', {'nbar': 'home', 'selectedPics':selectedPics})
 
 

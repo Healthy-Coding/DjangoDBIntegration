@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import UniversitydataCollegedata, Statedemographics, Collegeboard, Scorecard, Collegepictures
 from .forms import SimpleSearchForm
-#from datetime import datetime
-#from UAP.Home.models import Contact
+from datetime import datetime
+from Home.models import Contact
 
 
 def flag_page(request, c_id):
@@ -13,7 +13,7 @@ def flag_page(request, c_id):
     subject = "%s FLAGGED" % c_id
     message = "auto generated message for %s" % college.university
 
-    # = Contact(subject=subject, content=message, timesent=datetime.utcnow())
+    c = Contact(subject=subject, content=message, timesent=datetime.utcnow())
     #c.save()
 
     return render(request, "Colleges/flag_page.html", {'flag': c_id})
@@ -36,7 +36,7 @@ def search(request):
                  ).distinct()
 
             if size != "-1":
-                print(size)
+                #print(size)
                 x = size[1:-1].split(',')
                 min_size = int(x[0])
                 max_size = int(x[1])
