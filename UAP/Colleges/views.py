@@ -125,7 +125,7 @@ def access_db(key, db):
     try:
         return db[key]
     except KeyError:
-        return "*"
+        return 0
 
 
 def college(request, c_id):
@@ -148,6 +148,8 @@ def college(request, c_id):
     page_name = college_data['university']
     state = college_data['state_id']
     city = college_data['city']
+
+    #print"page_name",page_name
 
     #TODO: Access Website here -- currently links to google
     website = "www.google.com"
@@ -210,7 +212,8 @@ def college(request, c_id):
 
         dollars = {}
         for display, db_key in financial_dollars.items():
-            dollars[display] = int(NCES[db_key])
+            if NCES[db_key] != 'NULL':
+                dollars[display] = int(float((NCES[db_key])))
 
         percent = {}
         for display, db_key in financial_percent.items():
@@ -237,12 +240,16 @@ def college(request, c_id):
 
     #Demographic combo barchart
     for k, v in data.items():
-        if v[1]==None:
+        #print"k",k,"v",v
+        if v[0] ==None:
+            v[0] =0
+        if v[1]==None or v[1]=='*':
             v[1] = 0
-        if v[2]==None:
+        if v[2]==None or v[2] =='*':
             v[2] = 0
         if v[3]=='N/A' or v[3]==None:
             v[3] = 0
+        #print"float(v[0])", float(v[0]), type(v[0])
         google_graph.append([k,
                 float(v[0]), 
                 float(v[1]), 
@@ -278,6 +285,7 @@ def college(request, c_id):
     # print"IncomeBracketFirstQ", IncomeBracketFirstQ
     # print"IncomeBracketThirdQ", IncomeBracketThirdQ
     ### Values for private school income brackets 4/14/2017 ###
+    #print "NCES", NCES
     if NCES['control'] == 1:
         IncomeBracketMin = {1: [5317.0], 2: [4226.0], 3: [10682.0], 4: [8697.0], 5: [3114.0]}
         IncomeBracketMax = {1: [34646.0], 2: [32087.0], 3: [43600.0], 4: [37447.0], 5: [31535.0]}
@@ -308,7 +316,8 @@ def college(request, c_id):
     #count = 0
     for key, values in Quart_dict.items(): #key:value = npt41_priv:$$
         #count += 1 #count represent which income bracket 1 being lowest
-        college_specs.append(float(NCES[key])) #NCES is the object of the specific college of the given detail page
+        if NCES[key] != "NULL":
+            college_specs.append(float(NCES[key])) #NCES is the object of the specific college of the given detail page
     #print"college_specs", college_specs
 
 

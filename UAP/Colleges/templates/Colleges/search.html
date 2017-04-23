@@ -3,39 +3,61 @@
 
 {% load static %}
 
+{% block template_style %}<link rel="stylesheet" href="{% static 'assets2/css/user.css' %}">{% endblock template_style %}
 {% block content %}
     <div class="container-fluid">
+        <!-- Page Title -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
                 <h1>College Database</h1>
             </div>
         </div>
-        <div class="row bottom-buffer top-buffer">
-            <div class="col-md-10 col-md-offset-1">
-                <form method="POST" action="?page=1">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-6">
-                             {{form.query}}
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            {{form.college_size}}
-                            <label>Results per Page: </label>
-                            {{form.paginate_by}}
 
+        <!-- Page Search Bar -->
+        <div class="row" style="margin-right:0px;">
+            <form method="POST" action="?page=1">
+                {% csrf_token %}
+                <div class="col-md-3 col-md-offset-1">
+                    <div class="form-group">
+                        {{form.query}}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{form.college_size.id_for_label}}" class="control-label col-sm-5 text-right">Student Population</label>
+                        <div class="col-sm-7">
+                            {{form.college_size}}
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{form.paginate_by.id_for_label}}" class="control-label col-sm-3 text-right">Results per page</label>
+                        <div class="col-sm-4">
+                            {{form.paginate_by}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-default pull-right">Search <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </form>
         </div>
         {% if results != None %}
+            <div class="row" style="margin-right: 0px;">
+                <div class="col-md-5 col-md-offset-1">
+                    <h4>Found {{num_results}} results</h4>
+                </div>
+                {% if pagination %}
+                <div class="col-md-5 text-right">
+                    <h4>Page {{ results.number }} of {{ results.paginator.num_pages }}</h4>
+                </div>
+                {% endif %}
+            </div>
             <div class="list-group col-md-10 col-md-offset-1">
                {% for r in results %}
-                    <a href="{{ r.get_absolute_url }}" class="list-group-item">
-                        <div class="row">
+                     <a href="{{ r.get_absolute_url }}" class="list-group-item">
+                         <div class="row">
                             <div class="col-md-6">
                                 <h4 class="list-group-item-heading">{{r.university}}</h4>
                             </div>
@@ -44,28 +66,26 @@
                                 <p class="list-group-item-text text-right"><small>Enrollment: {{r.enrollment_undergrad }}</small></p>
                             </div>
                         </div>
-                    </a>
+                     </a>
                 {% endfor %}
             </div>
             {% if pagination %}
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-1">
-                    {% if results.has_previous %}
-                        <form action="?page={{ results.previous_page_number }}" method="POST">
-                            {% csrf_token %}
-                            {{ form.paginate_by.as_hidden }}
-                            <button type="submit" class="btn btn-primary btn-xs">Previous</button>
-                        </form>
-                    {% endif %}
-                        <p>{{ results.number }} of {{ results.paginator.num_pages }}</p>
-                    {% if results.has_next %}
-                        <form action="?page={{ results.next_page_number }}" method="POST">
-                            {% csrf_token %}
-                            {{ form.paginate_by.as_hidden }}
-                            <button type="submit" class="btn btn-primary btn-xs">Next</button>
-                        </form>
-                    {% endif %}
-                    </div>
+                <div class="row bottom-buffer">
+                    <form class="form-inline" method="POST">
+                        {% csrf_token %}
+                        {{ form.paginate_by.as_hidden }}
+                        {{ form.college_size.as_hidden }}
+                        <div class="col-md-6">
+                            {% if results.has_previous %}
+                                <button type="submit" class="btn btn-primary btn-md pull-right" formaction="?page={{ results.previous_page_number }}">Previous</button>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if results.has_next %}
+                                <button type="submit" class="btn btn-primary btn-md pull-left" formaction="?page={{ results.next_page_number }}">Next</button>
+                            {% endif %}
+                        </div>
+                    </form>
                 </div>
             {% endif %}
         {% endif %}
