@@ -9,6 +9,10 @@ def handler404(request):
     return render(request, '404.html', status=400)
 
 
+def handler500(request):
+    return render(request, '500.html', status=500)
+
+
 def home(request):
     startURL = "/static/assets/img/" 
     Pics = ["bowen-quad.jpg", "Brown.jpg", "College1.jpg","College2.jpg","College3.jpg","College4.jpg","College5.jpg","College6.jpg","College7.jpg","Penn.jpg"]

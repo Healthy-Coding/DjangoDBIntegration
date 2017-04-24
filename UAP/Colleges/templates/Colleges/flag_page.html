@@ -4,6 +4,10 @@
 {% load static %}
 
 {% block content %}
-<h3>Thanks for letting us know!</h3>
-<h4>If you have any additional information, fill out a <a href="{% url 'Home:contact' %}">contact</a> and we'll get to it right away</h4>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h3>Thanks for letting us know!</h3>
+        <h4>If you have any additional information, fill out a <a href="{% url 'Home:contact' %}">contact</a> and we'll get to it right away</h4>
+    </div>
+</div>
 {% endblock %}

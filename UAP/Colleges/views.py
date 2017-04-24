@@ -14,7 +14,7 @@ def flag_page(request, c_id):
     message = "auto generated message for %s" % college.university
 
     c = Contact(subject=subject, content=message, timesent=datetime.utcnow())
-    #c.save()
+    c.save()
 
     return render(request, "Colleges/flag_page.html", {'flag': c_id})
 
@@ -45,7 +45,9 @@ def search(request):
                     Q(enrollment_undergrad__gte=min_size, enrollment_undergrad__lte=max_size)
                 ).distinct()
 
-            if queryset_list.count() > paginate_by:
+            num_results = queryset_list.count()
+
+            if num_results > paginate_by:
                 page = request.GET.get("page")
                 paginator = Paginator(queryset_list, paginate_by)
 
@@ -63,6 +65,7 @@ def search(request):
 
             return render(request,"Colleges/search.html", {'form': form,
                                                            'results': queryset_list,
+                                                           'num_results': num_results,
                                                            'pagination': pagination,
                                                            'nbar': 'colleges'})
 
